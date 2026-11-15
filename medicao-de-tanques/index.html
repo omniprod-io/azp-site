@@ -15,7 +15,6 @@
 :root {
   /* AZP */
   --band: #141414;
-  --band-line: #34332F;
   --on-band: #F4F4F4;
   --on-band-muted: #ABABA4;
   --gold: #D2AE4A;
@@ -78,7 +77,6 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --band: #050505;
-    --band-line: #2A2925;
     --on-band: #EDEDE8;
     --on-band-muted: #8F8E87;
     --gold: #D2AE4A;
@@ -144,29 +142,30 @@ button { font: inherit; color: inherit; }
   position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
 }
 
-/* The band at the top: AZP's black, its letters, and a rule of its gold. */
+/* The band at the top: AZP's black and a rule of its gold. The mark is AZP's letters in black on a
+   gold plate, on the title's line; "Postos de combustíveis" is read by screen readers only. */
 .band {
   background: var(--band); color: var(--on-band);
   border-bottom: 3px solid var(--gold);
   border-image: linear-gradient(90deg, var(--gold-deep), var(--gold-light) 50%, var(--gold-deep)) 1;
 }
 .band-inner {
-  max-width: 560px; margin: 0 auto; display: grid; gap: 12px; justify-items: start;
+  max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px;
   padding-top: calc(env(safe-area-inset-top, 0px) + 14px);
   padding-bottom: 14px;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
-/* AZP's letters from its logo, and the logo's line beside them */
-.brand { display: flex; align-items: center; gap: 10px; }
-.wordmark { display: block; height: 30px; width: auto; }
-.brand-tag {
-  padding-left: 10px; border-left: 1px solid var(--gold);
-  font-size: 10px; line-height: 1.25; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold);
+.brand {
+  padding: 8px 12px; border-radius: 8px;
+  background: linear-gradient(180deg, var(--gold-light), var(--gold) 55%, var(--gold-deep));
+  box-shadow: inset 0 1px 0 var(--gold-sheen);
 }
-.title { display: grid; gap: 2px; }
-h1 { margin: 0; font-size: 22px; line-height: 1.15; font-weight: 800; letter-spacing: -.01em; }
-.band-sub { margin: 0; font-size: 13px; line-height: 1.35; color: var(--on-band-muted); }
+.wordmark { display: block; height: 22px; width: auto; }
+.brand .wordmark path { fill: var(--on-gold); stroke: none; } /* over the logo file's own classes */
+.title { display: grid; gap: 2px; min-width: 0; }
+h1 { margin: 0; font-size: 21px; line-height: 1.15; font-weight: 800; letter-spacing: -.01em; }
+.band-sub { margin: 0; font-size: 12.5px; line-height: 1.35; color: var(--on-band-muted); }
 
 /* The board. On the phone one column, the display first; the two groups only hold their parts.
    Its two tracks serve only the tank and its facts, side by side; everything else spans both. */
@@ -375,12 +374,14 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
 /* From the tablet up: two columns, the controls beside the readouts, the sheet open below. */
 @media (min-width: 760px) {
   .band-inner {
-    max-width: 1480px; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 24px;
+    max-width: 1480px; gap: 22px;
     padding-top: calc(env(safe-area-inset-top, 0px) + 16px); padding-bottom: 16px;
     padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px));
   }
-  .wordmark { height: 34px; }
-  .title { padding-left: 24px; border-left: 1px solid var(--band-line); }
+  .brand { padding: 10px 16px; }
+  .wordmark { height: 28px; }
+  h1 { font-size: 24px; }
+  .band-sub { font-size: 13px; }
 
   .board {
     max-width: 1480px; gap: 24px; padding-top: 24px;
@@ -672,7 +673,7 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
     </g>
   </g>
   </svg>
-      <span class="brand-tag" id="brandTag">Postos de<br>combustíveis</span>
+      <span class="sr" id="brandTag">Postos de combustíveis</span>
     </div>
     <div class="title">
       <h1>Medição de tanques</h1>
@@ -989,7 +990,7 @@ const SummaryImage = (() => {
     g.fillStyle = c.page;
     g.fillRect(0, 0, W, H);
 
-    // Band: AZP's black, its letters with the logo's line beside them, and a rule of its gold
+    // Band: AZP's black, its letters in black on a gold plate as at the top of the page, a rule of its gold
     g.fillStyle = c.band;
     g.fillRect(0, 0, W, 264);
     const rule = g.createLinearGradient(0, 0, W, 0);
@@ -1000,17 +1001,14 @@ const SummaryImage = (() => {
     g.fillRect(0, 264, W, 10);
 
     const wordmark = document.getElementById("wordmark");
-    const markH = 72;
-    paintSvg(g, wordmark, 64, 44, markH);
-    const tagX = 64 + Math.round((markH * wordmark.viewBox.baseVal.width) / wordmark.viewBox.baseVal.height) + 26;
-    g.fillStyle = c.gold;
-    g.fillRect(tagX, 52, 2, 60);
-    g.font = font(700, 22);
-    spaced(g, 4);
-    document.getElementById("brandTag").innerText.split("\n").forEach((line, k) => {
-      g.fillText(line.toUpperCase(), tagX + 22, 76 + k * 30);
-    });
-    spaced(g, 0);
+    const markH = 56;
+    const markW = Math.round((markH * wordmark.viewBox.baseVal.width) / wordmark.viewBox.baseVal.height);
+    const plate = g.createLinearGradient(0, 40, 0, 40 + markH + 36);
+    plate.addColorStop(0, c.goldLight);
+    plate.addColorStop(0.55, c.gold);
+    plate.addColorStop(1, c.goldDeep);
+    roundRect(g, 64, 40, markW + 56, markH + 36, 16, plate);
+    paintSvg(g, wordmark, 64 + 28, 40 + 18, markH); // its letters are drawn in the plate's ink, as the page shows them
 
     g.fillStyle = c.onBand;
     g.font = font(800, 56);
