@@ -136,6 +136,13 @@
   }
 }
 
+/* The shade behind the page's dialog. Declared on ::backdrop as well: older browsers do not let the
+   backdrop inherit the roles of :root. */
+:root, ::backdrop { --scrim: rgb(20 20 20 / .45); }
+@media (prefers-color-scheme: dark) {
+  :root, ::backdrop { --scrim: rgb(0 0 0 / .6); }
+}
+
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.45 var(--font); }
@@ -271,23 +278,29 @@ h1 { margin: 0; font-size: var(--h1-size); line-height: 1.15; font-weight: 800; 
 .unit { font-size: 18px; font-weight: 600; color: var(--visor-muted); }
 .hint { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
 
-/* A new round: the four readings cleared, after a yes asked on the page itself; under the share. */
-.round { display: contents; }
-.round > * { grid-column: 1 / -1; order: 5; min-width: 0; }
+/* A new round: under the share and quieter than it, a key of the pump's body rather than its gold;
+   the four readings are cleared after a yes in the page's dialog. */
 .new-round {
-  justify-self: center; min-height: 44px; padding: 0 12px; border: 0; background: none; color: var(--ink); cursor: pointer;
-  font-size: 14px; font-weight: 700; text-decoration: underline; text-decoration-color: var(--gold);
-  text-decoration-thickness: 2px; text-underline-offset: 5px;
+  order: 5; display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 16px;
+  border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); cursor: pointer;
+  box-shadow: 0 3px 0 var(--key-edge); font-size: 16px; font-weight: 700;
 }
+.new-round:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--key-edge); }
 .confirm {
-  display: grid; gap: 10px; margin-top: 10px; padding: 14px;
-  border: 1px solid var(--danger); border-radius: 12px; background: var(--surface);
+  width: min(100% - 32px, 360px); max-width: none; padding: 0; border: 0; border-radius: 18px;
+  background: var(--surface); color: var(--ink); box-shadow: 0 24px 48px var(--shadow);
 }
-.confirm p { margin: 0; font-weight: 700; }
-.confirm-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.confirm-actions button { min-height: 44px; padding: 0 16px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.confirm::backdrop { background: var(--scrim); }
+.confirm-body { display: grid; gap: 18px; padding: 24px 20px 20px; }
+.confirm p { margin: 0; font-size: 18px; font-weight: 700; line-height: 1.3; text-align: center; }
+/* side by side, as wide as each other, while both words fit on one line; one under the other when not */
+.confirm-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.confirm-actions button {
+  flex: 1 1 0; min-width: max-content; white-space: nowrap; min-height: 48px; padding: 0 12px;
+  border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer;
+}
 .confirm-yes { border: 1px solid var(--danger); background: var(--danger); color: var(--on-danger); }
-.confirm-no { border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.confirm-no { border: 1px solid var(--line); background: var(--surface); color: var(--ink); box-shadow: 0 3px 0 var(--key-edge); }
 
 /* Products: the pump's product keys, the chosen one lit */
 .products { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -449,7 +462,7 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
   .facts dt { font-size: 13px; }
   .facts dd { font-size: 18px; }
   .share { grid-area: share; flex-direction: column; gap: 6px; border-radius: 16px; }
-  .round > * { grid-column: 2; }
+  .new-round { grid-column: 2; }
   .share svg { width: 24px; height: 24px; }
 }
 
@@ -745,7 +758,7 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
       <div class="visor-foot">
         <button class="copy" id="copy" type="button" aria-label="Copiar a litragem">
           <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect><path d="M13 4.5V4a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 4v7.5A1.5 1.5 0 0 0 4 13h.5"></path></svg>
-          <span>Copiar litros</span>
+          <span>Copiar Litros</span>
         </button>
         <span class="visor-unit" aria-hidden="true">Litros</span>
       </div>
@@ -776,10 +789,10 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
     </section>
 
     <dl class="facts" id="facts">
-      <div><dt>Na folha</dt><dd id="factSheet"></dd></div>
+      <div><dt>Na Folha</dt><dd id="factSheet"></dd></div>
       <div><dt>Tolerância ±0,8%</dt><dd id="factTolerance"></dd></div>
       <div><dt>Ocupação</dt><dd id="factFill"></dd></div>
-      <div><dt>Cabe até a nominal</dt><dd id="factRoom"></dd></div>
+      <div><dt>Cabe até a Nominal</dt><dd id="factRoom"></dd></div>
     </dl>
 
     <button class="share" id="share" type="button">
@@ -787,18 +800,9 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
       <span>Compartilhar</span>
     </button>
 
-    <!-- A new round, under the share: it appears with the first reading, and there it moves
-         nothing above the field being typed. -->
-    <div class="round">
-      <button class="new-round" id="newRound" type="button" hidden>Nova medição</button>
-      <div class="confirm" id="confirmRound" role="group" aria-labelledby="confirmText" hidden>
-        <p id="confirmText">Apagar as leituras dos 4 tanques?</p>
-        <div class="confirm-actions">
-          <button class="confirm-yes" id="clearRound" type="button">Apagar leituras</button>
-          <button class="confirm-no" id="keepRound" type="button">Cancelar</button>
-        </div>
-      </div>
-    </div>
+    <!-- A new round, under the share and quieter than it: it appears with the first reading, and
+         there it moves nothing above the field being typed. Its yes is asked in the dialog below. -->
+    <button class="new-round" id="newRound" type="button" hidden>Nova Medição</button>
   </div>
 
   <details class="sheet" id="sheet">
@@ -812,6 +816,17 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
     <p>Tabelas 30SC/30JC (15.000 L por compartimento) e 30S/30J (30.000 L), transcritas e conferidas em 15/11/2026: os 510 valores batem com o volume de um cilindro horizontal de 2,549 m de diâmetro.</p>
   </footer>
 </main>
+
+<!-- The yes before a new round clears the four readings: a dialog of the page, never the browser's. -->
+<dialog class="confirm" id="confirmRound" aria-labelledby="confirmText">
+  <div class="confirm-body">
+    <p id="confirmText">Apagar as leituras dos 4 tanques?</p>
+    <div class="confirm-actions">
+      <button class="confirm-no" id="keepRound" type="button">Cancelar</button>
+      <button class="confirm-yes" id="clearRound" type="button">Apagar Leituras</button>
+    </div>
+  </div>
+</dialog>
 
 <div class="toast" id="toast" role="status" hidden></div>
 
@@ -1343,7 +1358,6 @@ const SummaryImage = (() => {
     $("share").hidden = !PRODUCTS.some((x) => measure(x.id));
     const anyReading = Object.keys(readings).length > 0;
     $("newRound").hidden = !anyReading;
-    if (!anyReading) $("confirmRound").hidden = true;
     refreshKeys();
     $("error").hidden = ok;
     if (!ok) {
@@ -1360,12 +1374,12 @@ const SummaryImage = (() => {
     const liters = Math.round(vol);
     const room = t.nominal - liters;
     const facts = [
-      ["Na folha", Number.isInteger(cm)
+      ["Na Folha", Number.isInteger(cm)
         ? `linha ${cm - (cm % 10)} · coluna ${cm % 10}`
         : `entre ${Math.floor(cm)} e ${Math.floor(cm) + 1} cm`],
       ["Tolerância ±0,8%", `${fmt(Math.round(vol * 0.992))} a ${fmt(Math.round(vol * 1.008))} L`],
       ["Ocupação", `${Math.round((vol / t.nominal) * 100)}% de ${fmt(t.nominal)} L`],
-      ["Cabe até a nominal", room >= 0 ? `${fmt(room)} L` : `${fmt(-room)} L acima`],
+      ["Cabe até a Nominal", room >= 0 ? `${fmt(room)} L` : `${fmt(-room)} L acima`],
     ];
 
     $("liters").textContent = fmt(liters);
@@ -1399,20 +1413,22 @@ const SummaryImage = (() => {
     record();
   }
 
-  // A new round: the four readings cleared once the person says yes on the page
+  // A new round: the four readings cleared once the person says yes in the page's dialog. Cancelar,
+  // Esc or a tap on the shade around it is a no, and the focus goes back to the button.
+  const confirmRound = $("confirmRound");
   $("newRound").addEventListener("click", () => {
-    $("confirmRound").hidden = false;
+    confirmRound.showModal();
     $("keepRound").focus();
   });
-  $("keepRound").addEventListener("click", () => {
-    $("confirmRound").hidden = true;
-    $("newRound").focus();
+  $("keepRound").addEventListener("click", () => confirmRound.close());
+  confirmRound.addEventListener("click", (e) => {
+    if (e.target === confirmRound) confirmRound.close();
   });
   $("clearRound").addEventListener("click", () => {
     readings = {};
     saveReadings();
     input.value = "";
-    $("confirmRound").hidden = true;
+    confirmRound.close();
     update();
     toast("Leituras apagadas");
     input.focus();
