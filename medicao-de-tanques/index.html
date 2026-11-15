@@ -700,7 +700,7 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
       <span class="sr" id="brandTag">Postos de combustíveis</span>
     </div>
     <div class="title">
-      <h1>Medição de tanques</h1>
+      <h1>Medição de Tanques</h1>
       <p class="band-sub">Leitura da régua em litros, pela tabela TRN</p>
     </div>
   </div>
@@ -719,7 +719,7 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
     </section>
 
     <section class="reading">
-      <label class="label" for="reading">Leitura da régua</label>
+      <label class="label" for="reading">Leitura da Régua</label>
       <div class="entry">
         <button class="step" id="minus" type="button" aria-label="Menos 1 cm">−</button>
         <div class="field">
@@ -1079,7 +1079,7 @@ const SummaryImage = (() => {
     const textTop = bandPad + overhang;
     g.fillStyle = c.onBand;
     g.font = font(800, titleSize);
-    g.fillText("Medição dos tanques", titleX, baseline(g, textTop, titleLine));
+    g.fillText("Medição dos Tanques", titleX, baseline(g, textTop, titleLine));
     g.fillStyle = c.onBandMuted;
     g.font = font(500, whenSize);
     g.fillText(s.when, titleX, baseline(g, textTop + titleLine + lineGap, whenLine));
@@ -1105,9 +1105,9 @@ const SummaryImage = (() => {
       const lines = tank.reading
         ? [
             [font(800, 42), c.ink, tank.product, 0],
-            [font(800, 38), c.ink, tank.reading, 54],
-            [font(500, 22), c.muted, tank.detail, 92],
-            ...(tank.old ? [[font(700, 22), c.danger, tank.old, 124]] : []),
+            [font(600, 28), c.ink, tank.reading, 44],
+            [font(500, 22), c.muted, tank.detail, 78],
+            ...(tank.old ? [[font(700, 22), c.danger, tank.old, 110]] : []),
           ]
         : [
             [font(800, 42), c.ink, tank.product, 0],
@@ -1294,7 +1294,7 @@ const SummaryImage = (() => {
 
   function buildTable() {
     const t = tableOf(productId);
-    $("sheetTitle").textContent = `Tabela completa · ${t.model}`;
+    $("sheetTitle").textContent = `Tabela Completa · ${t.model}`;
     let html = "<thead><tr><th>cm</th>";
     for (let c = 0; c < 10; c++) html += `<th data-col="${c}">${c}</th>`;
     html += "</tr></thead><tbody>";
@@ -1499,7 +1499,7 @@ const SummaryImage = (() => {
       return;
     }
     if (navigator.canShare?.({ files: [file] })) {
-      navigator.share({ files: [file], title: "Medição dos tanques" }).catch((e) => {
+      navigator.share({ files: [file], title: "Medição dos Tanques" }).catch((e) => {
         if (e.name !== "AbortError") toast("Não foi possível compartilhar");
       });
       return;
