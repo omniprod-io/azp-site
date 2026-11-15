@@ -1420,8 +1420,9 @@ const SummaryImage = (() => {
     record();
   }
 
-  // A new round: the four readings cleared once the person says yes in the page's dialog. Cancelar,
-  // Esc or a tap on the shade around it is a no, and the focus goes back to the button.
+  // A new round: the four readings cleared once the person says yes in the page's dialog, and the
+  // round starts again from the first product of the list (Gasolina). Cancelar, Esc or a tap on the
+  // shade around it is a no: nothing changes, and the focus goes back to the button.
   const confirmRound = $("confirmRound");
   $("newRound").addEventListener("click", () => {
     confirmRound.showModal();
@@ -1434,9 +1435,8 @@ const SummaryImage = (() => {
   $("clearRound").addEventListener("click", () => {
     readings = {};
     saveReadings();
-    input.value = "";
     confirmRound.close();
-    update();
+    selectProduct(PRODUCTS[0].id); // with no reading stored, it empties the field and redraws
     toast("Leituras apagadas");
     input.focus();
   });
