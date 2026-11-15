@@ -77,6 +77,9 @@
   --picture-fuel: #4A240B;
   --picture-fuel-deep: #1A0B03;
   --picture-crest: rgb(255 160 80 / .5);
+  /* the panels' edge, a light over whatever is behind, so it shows as much on the fuel as on the black:
+     the line's grey (#2B2A27) nearly matched the fuel and the gaps there looked wider, his report */
+  --picture-edge: rgb(255 255 255 / .14);
 
   --danger: #A8261D;
   --on-danger: #FFFFFF;
@@ -1211,7 +1214,7 @@ const SummaryImage = (() => {
       "gold", "gold-light", "gold-deep", "fuel", "fuel-top", "fuel-low",
       "visor", "visor-bezel", "visor-line", "visor-ink", "visor-glow", "visor-ghost", "visor-muted",
       "tank-empty", "tank-shell", "rod", "rod-mark", "mark", "mark-halo", "level", "danger",
-      "picture-fuel", "picture-fuel-deep", "picture-crest",
+      "picture-fuel", "picture-fuel-deep", "picture-crest", "picture-edge",
     ].map((name) => [name.replace(/-(\w)/g, (_, ch) => ch.toUpperCase()), colour(name)]));
     probe.remove();
     const face = role("font");
@@ -1310,7 +1313,7 @@ const SummaryImage = (() => {
     s.tanks.forEach((tank, i) => {
       const y = rowsTop + i * (rowH + gap);
       const mid = y + rowH / 2;
-      // its panel, glass: the blurred ground, the surface at GLASS over it, and the line around
+      // its panel, glass: the blurred ground, the surface at GLASS over it, and a light edge around
       g.save();
       roundPath(g, 40, y, W - 80, rowH, 28);
       g.clip();
@@ -1322,7 +1325,7 @@ const SummaryImage = (() => {
       g.restore();
       roundPath(g, 41, y + 1, W - 82, rowH - 2, 27);
       g.lineWidth = 2;
-      g.strokeStyle = c.line;
+      g.strokeStyle = c.pictureEdge;
       g.stroke();
       gauge(g, 158, mid + 4, 84, tank.reading ? tank.ratio : null, tank.depth, c, face);
 
