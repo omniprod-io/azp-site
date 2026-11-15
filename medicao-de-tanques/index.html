@@ -1276,10 +1276,12 @@ const SummaryImage = (() => {
     }
   }
 
+  // A comma typed last, as in "19,", is a decimal still being typed: it reads as 19 until the next
+  // digit, and is not an error (his ask of 2026-11-15).
   function parse(raw) {
     const s = raw.trim().replace(",", ".");
     if (s === "") return { empty: true };
-    if (!/^\d+(\.\d+)?$/.test(s)) return { error: "Use só números, como 156 ou 156,5." };
+    if (!/^\d+(\.\d*)?$/.test(s)) return { error: "Use só números, como 156 ou 156,5." };
     const cm = parseFloat(s);
     if (cm > MAX_CM) return { error: "A tabela vai de 0 a 254 cm." };
     return { cm };
