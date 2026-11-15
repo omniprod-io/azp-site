@@ -365,6 +365,13 @@ h1 { margin: 0; font-size: var(--h1-size); line-height: 1.15; font-weight: 800; 
   font-size: 17px; font-weight: 700;
 }
 .share:active { transform: translateY(2px); box-shadow: inset 0 1px 0 var(--gold-sheen), 0 1px 0 var(--gold-deep); }
+/* A computer, its main pointer a mouse or a trackpad, downloads the picture: the share sheet is a phone's way of
+   sending it. The same query is DESK in app.js. */
+.share .on-desk { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .share .on-touch { display: none; }
+  .share .on-desk { display: inline; }
+}
 
 /* The full sheet */
 .sheet { --sheet-open: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
@@ -805,9 +812,13 @@ td button::after { content: attr(data-v); display: block; height: 0; overflow: h
       <div><dt>Cabe até a Nominal</dt><dd id="factRoom"></dd></div>
     </dl>
 
+    <!-- One key, two words: a touch screen shares the picture, a computer downloads it. Which half shows is
+         decided by the query page.css and app.js both name, so the key always says what it does. -->
     <button class="share" id="share" type="button">
-      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 12.5V2.5M6.5 6 10 2.5 13.5 6"></path><path d="M6 9H5a1.5 1.5 0 0 0-1.5 1.5v6A1.5 1.5 0 0 0 5 18h10a1.5 1.5 0 0 0 1.5-1.5v-6A1.5 1.5 0 0 0 15 9h-1"></path></svg>
-      <span>Compartilhar</span>
+      <svg class="on-touch" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 12.5V2.5M6.5 6 10 2.5 13.5 6"></path><path d="M6 9H5a1.5 1.5 0 0 0-1.5 1.5v6A1.5 1.5 0 0 0 5 18h10a1.5 1.5 0 0 0 1.5-1.5v-6A1.5 1.5 0 0 0 15 9h-1"></path></svg>
+      <span class="on-touch">Compartilhar</span>
+      <svg class="on-desk" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5v10M6.5 9 10 12.5 13.5 9"></path><path d="M3.5 13.5v2A1.5 1.5 0 0 0 5 17h10a1.5 1.5 0 0 0 1.5-1.5v-2"></path></svg>
+      <span class="on-desk">Baixar Imagem</span>
     </button>
 
     <!-- A new round, under the share and quieter than it, disabled while no reading is stored. Its
@@ -1498,7 +1509,8 @@ const SummaryImage = (() => {
     }
   });
 
-  // Share: the four tanks in one picture, through the phone's own share sheet. The header says when
+  // Share: the four tanks in one picture, through the phone's own share sheet, or downloaded on a
+  // computer, where that sheet only gets in the way (his ask). The header says when
   // the measurement was taken, the moment of its latest reading; a tank whose reading is from an
   // earlier day says so on its row, so an old reading never passes for that day's.
   const pad = (n) => String(n).padStart(2, "0");
@@ -1532,6 +1544,9 @@ const SummaryImage = (() => {
     };
   }
 
+  // A computer is a main pointer that hovers and is fine, a mouse or a trackpad; page.css shows the
+  // key's words by the same query.
+  const DESK = matchMedia("(hover: hover) and (pointer: fine)");
   let lastUrl = null;
   $("share").addEventListener("click", () => {
     if (!PRODUCTS.some((p) => measure(p.id))) return;
@@ -1543,7 +1558,7 @@ const SummaryImage = (() => {
       toast("Não foi possível gerar a imagem");
       return;
     }
-    if (navigator.canShare?.({ files: [file] })) {
+    if (!DESK.matches && navigator.canShare?.({ files: [file] })) {
       navigator.share({ files: [file], title: "Medição dos Tanques" }).catch((e) => {
         if (e.name !== "AbortError") toast("Não foi possível compartilhar");
       });
