@@ -395,6 +395,9 @@ td button {
 }
 td button:hover { background: var(--fuel-soft); }
 td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700; }
+/* Every value keeps room for itself in bold, unseen, so the chosen cell (bold) never widens its column:
+   without it, choosing 10.337 on the 30S table moved the columns by 4 px. */
+td button::after { content: attr(data-v); display: block; height: 0; overflow: hidden; visibility: hidden; font-weight: 700; }
 
 .notes { display: grid; align-content: start; gap: 6px; font-size: 13px; color: var(--muted); }
 .notes p { margin: 0; }
@@ -1323,7 +1326,7 @@ const SummaryImage = (() => {
       for (let c = 0; c < 10; c++) {
         const cm = r + c;
         html += cm <= MAX_CM
-          ? `<td data-cm="${cm}"><button type="button" data-cm="${cm}">${fmt(t.liters[cm])}</button></td>`
+          ? `<td data-cm="${cm}"><button type="button" data-cm="${cm}" data-v="${fmt(t.liters[cm])}">${fmt(t.liters[cm])}</button></td>`
           : "<td></td>";
       }
       html += "</tr>";
