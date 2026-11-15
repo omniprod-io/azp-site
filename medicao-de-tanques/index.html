@@ -458,36 +458,36 @@ td button::after { content: attr(data-v); display: block; height: 0; overflow: h
   .visor-unit { font-size: 13px; }
 }
 
-/* Desktop: the tank beside the display, the facts and the share key below them. */
-@media (min-width: 1180px) and (max-width: 1679.98px) {
-  .board { grid-template-columns: 340px minmax(0, 1fr); }
-  .readouts {
-    grid-template-columns: minmax(0, 1fr) clamp(250px, 22vw, 320px);
-    grid-template-areas: "visor tank" "facts share";
-  }
-  .visor { grid-area: visor; }
-  .tank { grid-area: tank; padding: 16px; }
-  .gauge-mark { font-size: 6.5px; }
-  .facts { grid-area: facts; grid-template-columns: 1fr 1fr; gap: 14px 24px; padding: 16px 22px; }
-  .facts dt { font-size: 13px; }
-  .facts dd { font-size: 18px; }
-  .share { grid-area: share; flex-direction: column; gap: 6px; border-radius: 16px; }
-  .new-round { grid-column: 2; }
-  .share svg { width: 24px; height: 24px; }
-}
-
-/* Very wide: the sheet is a third column, beside the readouts. */
-@media (min-width: 1680px) {
+/* The full table beside the rest, his preferred view, as soon as it fits: from 1081 px the controls
+   above the readouts in one column and the sheet beside them; from 1345 px controls, readouts and
+   sheet in three columns. Each breakpoint is the sum of what its columns need at least, measured on
+   2026-11-15 with the widest table (30S): 2 x 32 px of margin and 24 px between columns; the sheet
+   593 px (its table at its narrowest, 563 px at 13 px, plus 28 px of margin and its border); in two
+   columns, 400 px for controls and readouts; in three, 260 px for the controls and 380 px for the
+   readouts (the facts need 187 px beside the tank). Above the minimums the columns share the width
+   as 340 : 562 : 740 did at 1718 px, the view he liked; the readouts give way first, so a wider
+   font can narrow them and never makes the page scroll sideways. */
+@media (min-width: 1081px) {
   .board {
     max-width: 1920px;
-    grid-template-columns: 340px minmax(0, 1fr) minmax(660px, 740px);
-    grid-template-areas: "controls readouts sheet" "notes readouts sheet";
-    grid-template-rows: auto 1fr;
+    grid-template-columns: minmax(400px, 1fr) minmax(min-content, 1.3fr);
+    grid-template-areas: "controls sheet" "readouts sheet" "notes sheet";
+    grid-template-rows: auto auto 1fr;
   }
   .band-inner { max-width: 1920px; }
   .sheet { align-self: start; }
+  table { min-width: 0; }
+  .products { grid-template-columns: 1fr 1fr; }
   .gauge-mark { font-size: 7px; }
   td button { min-height: 32px; font-size: 13px; }
+}
+@media (min-width: 1345px) {
+  .board {
+    grid-template-columns: minmax(260px, 2.6fr) minmax(0, 4.4fr) minmax(min-content, 5.7fr);
+    grid-template-areas: "controls readouts sheet" "notes readouts sheet";
+    grid-template-rows: auto 1fr;
+  }
+  .products { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
