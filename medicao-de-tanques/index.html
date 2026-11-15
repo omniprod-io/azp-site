@@ -59,6 +59,7 @@
   --fuel-top: #F0D888;
   --fuel-low: #B38E2C;
   --fuel-soft: #F4E6B8;
+  --guide: #FAF1D3; /* the sheet's shaded reading paths, quieter than the chosen cell and the hover */
   --tank-empty: #EEEDE9;
   --tank-shell: #141414;
   --rod: rgb(255 255 255 / .84);
@@ -119,6 +120,7 @@
     --fuel-top: #F0D888;
     --fuel-low: #9F7E27;
     --fuel-soft: #3A3218;
+    --guide: #2B2614;
     --tank-empty: #1F1F1C;
     --tank-shell: #C9C8BF;
     --rod: rgb(240 238 228 / .88);
@@ -386,6 +388,7 @@ th {
   padding: 6px 4px; background: var(--band); color: var(--on-band); font-size: 13px; font-weight: 700;
   border-right: 1px solid var(--surface); border-bottom: 1px solid var(--surface);
 }
+th.guide { color: var(--gold-light); }
 th.on { background: var(--gold); color: var(--on-gold); }
 tbody th, thead th:first-child { position: sticky; left: 0; z-index: 1; }
 td { padding: 0; text-align: center; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -393,6 +396,7 @@ td button {
   width: 100%; min-height: 44px; padding: 0 2px; border: 0; background: transparent; font-size: 13px;
   font-variant-numeric: tabular-nums; cursor: pointer;
 }
+td.guide { background: var(--guide); }
 td button:hover { background: var(--fuel-soft); }
 td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700; }
 /* Every value keeps room for itself in bold, unseen, so the chosen cell (bold) never widens its column:
@@ -1315,18 +1319,31 @@ const SummaryImage = (() => {
     }
   }
 
+  // The paper sheets shade the reading paths of their two worked examples, 53 and 156 cm: down the
+  // example's column from the top to its row, and along its row from the left to its column. The
+  // page shades the same cells and headers, more quietly than the chosen cell.
+  const EXAMPLES = [53, 156];
+  const guideRow = (r) => EXAMPLES.some((e) => e - (e % 10) === r);
+  const guideCol = (c) => EXAMPLES.some((e) => e % 10 === c);
+  const onGuide = (r, c) => EXAMPLES.some((e) => {
+    const er = e - (e % 10);
+    const ec = e % 10;
+    return (c === ec && r <= er) || (r === er && c <= ec);
+  });
+
   function buildTable() {
     const t = tableOf(productId);
     $("sheetTitle").textContent = `Tabela Completa · ${t.model}`;
+    const guide = (on) => (on ? ' class="guide"' : "");
     let html = "<thead><tr><th>cm</th>";
-    for (let c = 0; c < 10; c++) html += `<th data-col="${c}">${c}</th>`;
+    for (let c = 0; c < 10; c++) html += `<th data-col="${c}"${guide(guideCol(c))}>${c}</th>`;
     html += "</tr></thead><tbody>";
     for (let r = 0; r <= 250; r += 10) {
-      html += `<tr><th data-row="${r}">${r}</th>`;
+      html += `<tr><th data-row="${r}"${guide(guideRow(r))}>${r}</th>`;
       for (let c = 0; c < 10; c++) {
         const cm = r + c;
         html += cm <= MAX_CM
-          ? `<td data-cm="${cm}"><button type="button" data-cm="${cm}" data-v="${fmt(t.liters[cm])}">${fmt(t.liters[cm])}</button></td>`
+          ? `<td data-cm="${cm}"${guide(onGuide(r, c))}><button type="button" data-cm="${cm}" data-v="${fmt(t.liters[cm])}">${fmt(t.liters[cm])}</button></td>`
           : "<td></td>";
       }
       html += "</tr>";
