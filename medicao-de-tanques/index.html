@@ -286,6 +286,9 @@ h1 { margin: 0; font-size: var(--h1-size); line-height: 1.15; font-weight: 800; 
   box-shadow: 0 3px 0 var(--key-edge); font-size: 16px; font-weight: 700;
 }
 .new-round:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--key-edge); }
+
+/* A button with nothing to act on (no reading to copy, share or clear) stays in its place, faded. */
+.copy:disabled, .share:disabled, .new-round:disabled { opacity: .4; cursor: default; transform: none; }
 .confirm {
   width: min(100% - 32px, 360px); max-width: none; padding: 0; border: 0; border-radius: 18px;
   background: var(--surface); color: var(--ink); box-shadow: 0 24px 48px var(--shadow);
@@ -800,9 +803,9 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
       <span>Compartilhar</span>
     </button>
 
-    <!-- A new round, under the share and quieter than it: it appears with the first reading, and
-         there it moves nothing above the field being typed. Its yes is asked in the dialog below. -->
-    <button class="new-round" id="newRound" type="button" hidden>Nova Medição</button>
+    <!-- A new round, under the share and quieter than it, disabled while no reading is stored. Its
+         yes is asked in the dialog below. -->
+    <button class="new-round" id="newRound" type="button" disabled>Nova Medição</button>
   </div>
 
   <details class="sheet" id="sheet">
@@ -1346,23 +1349,27 @@ const SummaryImage = (() => {
     $("gauge").setAttribute("aria-label", cm === null ? "Tanque" : `Tanque com ${fmt(cm)} cm de combustível`);
   }
 
+  const FACT_IDS = ["factSheet", "factTolerance", "factFill", "factRoom"];
   function update() {
     const product = byId[productId];
     const t = tableOf(productId);
     const p = parse(input.value);
     $("which").textContent = `${product.name} · ${t.model}`;
 
+    // Nothing appears or disappears with a reading, so the page keeps its size: with nothing to show
+    // the facts read "—", and a button with nothing to act on is disabled.
     const ok = !p.empty && !p.error;
     input.setAttribute("aria-invalid", String(Boolean(p.error)));
-    for (const id of ["volume", "copy", "facts"]) $(id).hidden = !ok;
-    $("share").hidden = !PRODUCTS.some((x) => measure(x.id));
-    const anyReading = Object.keys(readings).length > 0;
-    $("newRound").hidden = !anyReading;
+    $("volume").hidden = !ok;
+    $("copy").disabled = !ok;
+    $("share").disabled = !PRODUCTS.some((x) => measure(x.id));
+    $("newRound").disabled = Object.keys(readings).length === 0;
     refreshKeys();
     $("error").hidden = ok;
     if (!ok) {
       $("error").textContent = p.empty ? "Sem leitura. Digite os centímetros da régua." : p.error;
       $("error").dataset.kind = p.empty ? "empty" : "invalid";
+      FACT_IDS.forEach((id) => { $(id).textContent = "—"; });
       current = null;
       setGauge(null);
       highlight(null);
@@ -1383,7 +1390,7 @@ const SummaryImage = (() => {
     ];
 
     $("liters").textContent = fmt(liters);
-    ["factSheet", "factTolerance", "factFill", "factRoom"].forEach((id, k) => { $(id).textContent = facts[k][1]; });
+    FACT_IDS.forEach((id, k) => { $(id).textContent = facts[k][1]; });
     current = { product, table: t, cm, liters, facts };
     setGauge(cm);
     highlight(cm);
