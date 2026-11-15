@@ -1002,7 +1002,13 @@ const SummaryImage = (() => {
     g.textBaseline = "alphabetic";
   }
 
-  // s: { tanks: [{ product, spec, depth, reading|null, liters, ratio, detail, taken }], when, footer }
+  // The baseline that puts a line of text where CSS puts it in a line box of the given height.
+  function baseline(g, top, lineHeight) {
+    const m = g.measureText("Mg");
+    return top + (lineHeight - (m.fontBoundingBoxAscent + m.fontBoundingBoxDescent)) / 2 + m.fontBoundingBoxAscent;
+  }
+
+  // s: { tanks: [{ product, depth, reading|null, liters, ratio, detail, old|null }], when, footer }
   function draw(s) {
     // Each colour is resolved by the browser, so the canvas gets plain rgb() whatever the role's syntax.
     const probe = document.createElement("i");
@@ -1015,7 +1021,7 @@ const SummaryImage = (() => {
       "page", "surface", "ink", "muted", "line", "band", "on-band", "on-band-muted",
       "gold", "gold-light", "gold-deep", "fuel", "fuel-top", "fuel-low",
       "visor", "visor-bezel", "visor-line", "visor-ink", "visor-glow", "visor-ghost", "visor-muted",
-      "tank-empty", "tank-shell", "rod", "rod-mark", "mark", "mark-halo", "level",
+      "tank-empty", "tank-shell", "rod", "rod-mark", "mark", "mark-halo", "level", "danger",
     ].map((name) => [name.replace(/-(\w)/g, (_, ch) => ch.toUpperCase()), colour(name)]));
     probe.remove();
     const face = role("font");
@@ -1031,93 +1037,126 @@ const SummaryImage = (() => {
     g.fillStyle = c.page;
     g.fillRect(0, 0, W, H);
 
-    // Band: AZP's black, its letters in black on a gold plate as at the top of the page, a rule of its gold
+    // Band: as at the top of the page, AZP's letters in black on a gold plate beside the title and the
+    // moment of the measurement, the plate a little taller than their two lines; the page's phone
+    // header (title 21 px) drawn at k times its size, then a rule of AZP's gold.
+    const k = 54 / 21;
+    const titleSize = 21 * k;
+    const whenSize = 12 * k;
+    const titleLine = titleSize * 1.15;
+    const whenLine = whenSize * 1.35;
+    const lineGap = 2 * k;
+    const overhang = 2 * k;
+    const padY = 10 * k;
+    const padX = 12 * k;
+    const bandPad = 14 * k;
+    const textBlock = titleLine + lineGap + whenLine;
+    const plateH = textBlock + 2 * overhang;
+    const bandH = bandPad + plateH + bandPad;
+    const ruleH = 10;
+
     g.fillStyle = c.band;
-    g.fillRect(0, 0, W, 240);
+    g.fillRect(0, 0, W, bandH);
     const rule = g.createLinearGradient(0, 0, W, 0);
     rule.addColorStop(0, c.goldDeep);
     rule.addColorStop(0.5, c.goldLight);
     rule.addColorStop(1, c.goldDeep);
     g.fillStyle = rule;
-    g.fillRect(0, 240, W, 10);
+    g.fillRect(0, bandH, W, ruleH);
 
     const wordmark = document.getElementById("wordmark");
-    const markH = 52;
-    const markW = Math.round((markH * wordmark.viewBox.baseVal.width) / wordmark.viewBox.baseVal.height);
-    const plate = g.createLinearGradient(0, 40, 0, 40 + markH + 34);
+    const markH = plateH - 2 * padY;
+    const markW = (markH * wordmark.viewBox.baseVal.width) / wordmark.viewBox.baseVal.height;
+    const plateX = 64;
+    const plate = g.createLinearGradient(0, bandPad, 0, bandPad + plateH);
     plate.addColorStop(0, c.goldLight);
     plate.addColorStop(0.55, c.gold);
     plate.addColorStop(1, c.goldDeep);
-    roundRect(g, 64, 40, markW + 52, markH + 34, 16, plate);
-    paintSvg(g, wordmark, 64 + 26, 40 + 17, markH); // its letters are drawn in the plate's ink, as the page shows them
+    roundRect(g, plateX, bandPad, markW + 2 * padX, plateH, 8 * k, plate);
+    paintSvg(g, wordmark, plateX + padX, bandPad + padY, markH); // its letters in the plate's ink, as the page shows them
 
+    const titleX = plateX + markW + 2 * padX + 12 * k;
+    const textTop = bandPad + overhang;
     g.fillStyle = c.onBand;
-    g.font = font(800, 54);
-    g.fillText("Medição dos tanques", 64, 178);
+    g.font = font(800, titleSize);
+    g.fillText("Medição dos tanques", titleX, baseline(g, textTop, titleLine));
     g.fillStyle = c.onBandMuted;
-    g.font = font(500, 28);
-    g.fillText(s.when, 64, 216);
+    g.font = font(500, whenSize);
+    g.fillText(s.when, titleX, baseline(g, textTop + titleLine + lineGap, whenLine));
+
+    // The footer's line sits as far from the bottom edge as the rows from the page's sides, and the
+    // four rows share what is left between the rule and it.
+    g.font = font(500, 22);
+    const footerY = H - 64;
+    const footerTop = footerY - g.measureText(s.footer).actualBoundingBoxAscent;
+    const gap = 14;
+    const rowsTop = bandH + ruleH + 24;
+    const rowH = (footerTop - 32 - rowsTop - 3 * gap) / 4;
 
     // One row a tank: its drawing, what it is and its reading, and the liters lit in a display window
-    const rowH = 244;
-    const gap = 14;
-    s.tanks.forEach((tank, k) => {
-      const y = 274 + k * (rowH + gap);
+    s.tanks.forEach((tank, i) => {
+      const y = rowsTop + i * (rowH + gap);
+      const mid = y + rowH / 2;
       roundRect(g, 40, y, W - 80, rowH, 28, c.line);
       roundRect(g, 42, y + 2, W - 84, rowH - 4, 27, c.surface);
-      gauge(g, 158, y + rowH / 2 + 4, 84, tank.reading ? tank.ratio : null, tank.depth, c, face);
+      gauge(g, 158, mid + 4, 84, tank.reading ? tank.ratio : null, tank.depth, c, face);
 
+      // its lines, as one block centred on the row: [font, colour, text, baseline below the first]
+      const lines = tank.reading
+        ? [
+            [font(800, 42), c.ink, tank.product, 0],
+            [font(800, 38), c.ink, tank.reading, 54],
+            [font(500, 22), c.muted, tank.detail, 92],
+            ...(tank.old ? [[font(700, 22), c.danger, tank.old, 124]] : []),
+          ]
+        : [
+            [font(800, 42), c.ink, tank.product, 0],
+            [font(700, 30), c.muted, "Sem leitura", 50],
+          ];
+      g.font = lines[0][0];
+      const above = g.measureText(lines[0][2]).actualBoundingBoxAscent;
+      const last = lines[lines.length - 1];
+      g.font = last[0];
+      const below = last[3] + g.measureText(last[2]).actualBoundingBoxDescent;
+      const first = mid - (above + below) / 2 + above;
       const tx = 284;
-      g.fillStyle = c.ink;
-      g.font = font(800, 42);
-      g.fillText(tank.product, tx, y + 64);
-      g.fillStyle = c.muted;
-      g.font = font(500, 22);
-      g.fillText(tank.spec, tx, y + 98);
-      if (tank.reading) {
-        g.fillStyle = c.ink;
-        g.font = font(800, 38);
-        g.fillText(tank.reading, tx, y + 152);
-        g.fillStyle = c.muted;
-        g.font = font(500, 22);
-        g.fillText(tank.detail, tx, y + 190);
-        g.fillText(`Medido ${tank.taken}`, tx, y + 220);
-      } else {
-        g.fillStyle = c.muted;
-        g.font = font(700, 30);
-        g.fillText("Sem leitura", tx, y + 160);
+      for (const [f, colour, text, dy] of lines) {
+        g.font = f;
+        g.fillStyle = colour;
+        g.fillText(text, tx, first + dy);
       }
 
       const vx = 642;
       const vw = W - 40 - 22 - vx;
       roundRect(g, vx, y + 22, vw, rowH - 44, 20, c.visorBezel);
       roundRect(g, vx + 10, y + 32, vw - 20, rowH - 64, 14, c.visor);
+      const digitsY = mid + 20;
       const right = vx + vw - 30;
       g.textAlign = "right";
       g.font = font(500, 86, digits);
       spaced(g, -3);
       g.fillStyle = c.visorGhost;
-      g.fillText("88.888", right, y + 142);
+      g.fillText("88.888", right, digitsY);
       if (tank.reading) {
         g.save();
         g.shadowColor = c.visorGlow;
         g.shadowBlur = 26;
         g.fillStyle = c.visorInk;
-        g.fillText(tank.liters, right, y + 142);
+        g.fillText(tank.liters, right, digitsY);
         g.restore();
       }
       spaced(g, 0);
       g.fillStyle = c.visorMuted;
       g.font = font(700, 18);
       spaced(g, 5);
-      g.fillText("LITROS", right + 5, y + 184);
+      g.fillText("LITROS", right + 5, digitsY + 42);
       spaced(g, 0);
       g.textAlign = "left";
     });
 
     g.fillStyle = c.muted;
     g.font = font(500, 22);
-    g.fillText(s.footer, 64, 1322);
+    g.fillText(s.footer, 64, footerY);
 
     return canvas;
   }
@@ -1414,40 +1453,35 @@ const SummaryImage = (() => {
     }
   });
 
-  // Share: the four tanks in one picture, through the phone's own share sheet. Each tank carries the
-  // hour its reading was typed, and the day when it was not today, so an old reading reads as old.
+  // Share: the four tanks in one picture, through the phone's own share sheet. The header says when
+  // the measurement was taken, the moment of its latest reading; a tank whose reading is from an
+  // earlier day says so on its row, so an old reading never passes for that day's.
   const pad = (n) => String(n).padStart(2, "0");
   const hour = (d) => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  function takenAt(at, now) {
-    const d = new Date(at);
-    const yesterday = new Date(now);
-    yesterday.setDate(now.getDate() - 1);
-    if (d.toDateString() === now.toDateString()) return `às ${hour(d)}`;
-    if (d.toDateString() === yesterday.toDateString()) return `ontem às ${hour(d)}`;
-    return `${pad(d.getDate())}/${pad(d.getMonth() + 1)} às ${hour(d)}`;
-  }
+  const dayMonth = (d) => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}`;
   function summary(now) {
-    const day = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
     const stamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+    const latest = new Date(Math.max(...PRODUCTS.map((p) => measure(p.id)?.at ?? -Infinity)));
     const tanks = PRODUCTS.map((p) => {
       const t = tableOf(p.id);
-      const tank = { product: p.name, spec: `${t.model} · ${fmt(t.nominal)} L`, depth: t.diameter_m * 100 };
+      const tank = { product: p.name, depth: t.diameter_m * 100 };
       const m = measure(p.id);
       if (!m) return { ...tank, reading: null };
       const room = t.nominal - m.liters;
+      const at = new Date(m.at);
       return {
         ...tank,
         reading: `${fmt(m.cm)} cm`,
         liters: fmt(m.liters),
         ratio: m.cm / tank.depth,
         detail: `${Math.round((m.vol / t.nominal) * 100)}% · ${room >= 0 ? `cabe ${fmt(room)} L` : `${fmt(-room)} L acima`}`,
-        taken: takenAt(m.at, now),
+        old: at.toDateString() === latest.toDateString() ? null : `Leitura de ${dayMonth(at)} às ${hour(at)}`,
       };
     });
     const models = [...new Set(PRODUCTS.map((p) => tableOf(p.id).model.replace(/ /g, "")))];
     return {
       tanks,
-      when: `${day} às ${hour(now)}`,
+      when: `${dayMonth(latest)}/${latest.getFullYear()} às ${hour(latest)}`,
       footer: `Tabelas TRN ${models.join(" e ")} · tanques nivelados · tolerância de 0,8%`,
       fileName: `medicao-tanques-${stamp}.png`,
     };
