@@ -225,6 +225,8 @@ h1 { margin: 0; font-size: 21px; line-height: 1.15; font-weight: 800; letter-spa
   grid-area: 1 / 1; align-self: center; justify-self: start; max-width: 100%; margin: 0;
   color: var(--visor-danger); font-size: 17px; font-weight: 700; line-height: 1.3;
 }
+/* A tank with no reading yet is not an error: the window says so in its quiet ink. */
+.error[data-kind="empty"] { color: var(--visor-muted); font-weight: 600; }
 .visor-foot {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding: 10px 4px 2px;
@@ -699,7 +701,7 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
       <div class="entry">
         <button class="step" id="minus" type="button" aria-label="Menos 1 cm">−</button>
         <div class="field">
-          <input id="reading" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" value="156" aria-describedby="readingHint">
+          <input id="reading" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" value="" aria-describedby="readingHint">
           <span class="unit">cm</span>
         </div>
         <button class="step" id="plus" type="button" aria-label="Mais 1 cm">+</button>
@@ -760,7 +762,7 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
 
     <button class="share" id="share" type="button">
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 12.5V2.5M6.5 6 10 2.5 13.5 6"></path><path d="M6 9H5a1.5 1.5 0 0 0-1.5 1.5v6A1.5 1.5 0 0 0 5 18h10a1.5 1.5 0 0 0 1.5-1.5v-6A1.5 1.5 0 0 0 15 9h-1"></path></svg>
-      <span>Compartilhar imagem</span>
+      <span>Compartilhar resumo</span>
     </button>
   </div>
 
@@ -781,13 +783,12 @@ td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700;
 <script>
 const TABLES = {"30SC":{"model":"30SC / 30JC","nominal":15000,"kind":"compartimento","diameter_m":2.549,"liters":[0,7,18,34,52,72,95,120,146,174,204,235,267,301,336,372,409,448,487,528,569,612,655,699,744,790,837,885,933,983,1032,1083,1135,1187,1239,1293,1347,1401,1457,1513,1569,1626,1684,1742,1801,1860,1920,1980,2041,2102,2164,2226,2289,2352,2416,2480,2544,2609,2674,2740,2806,2872,2939,3006,3074,3142,3210,3278,3347,3416,3486,3556,3626,3696,3767,3838,3909,3981,4053,4125,4197,4270,4342,4415,4489,4562,4636,4710,4784,4858,4933,5007,5082,5157,5233,5308,5384,5459,5535,5611,5687,5764,5840,5917,5993,6070,6147,6224,6301,6378,6456,6533,6610,6688,6765,6843,6921,6999,7076,7154,7232,7310,7388,7466,7544,7622,7700,7778,7856,7934,8012,8090,8168,8246,8324,8402,8480,8558,8636,8714,8791,8869,8947,9024,9102,9179,9256,9333,9410,9487,9564,9641,9718,9794,9871,9947,10023,10099,10175,10251,10326,10402,10477,10552,10627,10701,10776,10850,10924,10998,11072,11145,11219,11292,11364,11437,11509,11581,11653,11725,11796,11867,11937,12008,12078,12148,12217,12286,12355,12424,12492,12560,12627,12694,12761,12828,12894,12959,13024,13089,13154,13218,13281,13344,13407,13469,13531,13592,13653,13713,13773,13832,13890,13949,14006,14063,14120,14175,14231,14285,14339,14393,14445,14497,14549,14599,14649,14698,14747,14794,14841,14887,14932,14976,15019,15062,15103,15144,15183,15221,15258,15294,15329,15363,15395,15426,15455,15483,15510,15534,15556,15577,15595,15610,15621]},"30S":{"model":"30S / 30J","nominal":30000,"kind":"tanque pleno","diameter_m":2.549,"liters":[0,13,37,68,104,145,191,240,293,349,408,470,535,603,673,745,820,897,976,1058,1141,1226,1313,1401,1492,1584,1678,1774,1871,1969,2069,2171,2274,2378,2484,2591,2699,2809,2920,3032,3145,3259,3375,3491,3609,3728,3848,3969,4090,4213,4337,4462,4587,4714,4841,4970,5099,5229,5359,5491,5623,5757,5890,6025,6160,6296,6433,6570,6709,6847,6987,7127,7267,7408,7550,7692,7835,7979,8122,8267,8412,8557,8703,8850,8996,9144,9291,9440,9588,9737,9886,10036,10186,10337,10488,10639,10790,10942,11094,11246,11399,11552,11705,11858,12012,12166,12320,12474,12629,12784,12938,13094,13249,13404,13560,13715,13871,14027,14183,14339,14495,14651,14807,14964,15120,15277,15433,15589,15746,15902,16059,16215,16372,16528,16684,16840,16996,17152,17308,17464,17620,17776,17931,18086,18242,18397,18552,18706,18861,19015,19169,19323,19477,19630,19783,19936,20089,20241,20393,20545,20696,20847,20998,21148,21298,21448,21597,21746,21895,22043,22191,22338,22485,22631,22777,22922,23067,23212,23356,23499,23642,23784,23926,24067,24207,24347,24486,24625,24763,24900,25037,25173,25308,25443,25577,25710,25842,25973,26104,26234,26363,26491,26618,26745,26870,26995,27119,27241,27363,27484,27604,27722,27840,27956,28072,28186,28299,28411,28522,28631,28740,28846,28952,29056,29159,29260,29360,29459,29556,29651,29745,29837,29927,30016,30103,30187,30270,30351,30430,30507,30582,30654,30724,30791,30856,30918,30976,31032,31085,31134,31179,31220,31255,31286,31309]}};
 const PRODUCTS = [{"id":"gasolina","name":"Gasolina","table":"30SC"},{"id":"etanol","name":"Etanol","table":"30SC"},{"id":"s10","name":"Diesel S-10","table":"30SC"},{"id":"s500","name":"Diesel S-500","table":"30S"}];
-// The summary of one measurement, drawn as a 1080 × 1350 picture to share.
+// The four tanks' measurements, drawn as one 1080 × 1350 picture to share.
 // Colours and font are read from the page's roles, so the picture follows page.css;
 // AZP's letters are painted from the page's own inline SVG (#wordmark), so they have one source.
 const SummaryImage = (() => {
   const W = 1080;
   const H = 1350;
-  const X = 104; // left edge of the text on the display's glass
 
   const role = (name) => getComputedStyle(document.documentElement).getPropertyValue(`--${name}`).trim();
 
@@ -905,7 +906,8 @@ const SummaryImage = (() => {
     circle();
     g.fill();
 
-    // the fuel, lighter at its surface
+    // the fuel, lighter at its surface (none when the tank has no reading)
+    const empty = ratio === null;
     g.save();
     circle();
     g.clip();
@@ -914,7 +916,7 @@ const SummaryImage = (() => {
     shade.addColorStop(0.16, c.fuel);
     shade.addColorStop(1, c.fuelLow);
     g.fillStyle = shade;
-    g.fillRect(px(0), py(level), 120 * k, py(112) - py(level));
+    if (!empty) g.fillRect(px(0), py(level), 120 * k, py(112) - py(level));
     g.restore();
 
     g.lineWidth = 3 * k;
@@ -925,6 +927,7 @@ const SummaryImage = (() => {
     const at = (cm) => 112 - (cm / depth) * 104;
     roundRect(g, px(54.5), py(0.5), 11 * k, 111.5 * k, k, c.rod);
     // over it the level, dashed across the tank, with its pointer
+    if (!empty) {
     g.strokeStyle = c.level;
     g.lineWidth = 1.4 * k;
     g.setLineDash([3 * k, 2 * k]);
@@ -940,6 +943,7 @@ const SummaryImage = (() => {
     g.lineTo(px(118), py(level + 3));
     g.closePath();
     g.fill();
+    }
 
     g.strokeStyle = c.rodMark;
     for (let cm = 10; cm < depth; cm += 10) {
@@ -963,7 +967,7 @@ const SummaryImage = (() => {
     g.textBaseline = "alphabetic";
   }
 
-  // s: { product, spec, reading, liters, ratio, depth, facts: [[label, value] × 4], when, footer }
+  // s: { tanks: [{ product, spec, depth, reading|null, liters, ratio, detail, taken }], when, footer }
   function draw(s) {
     // Each colour is resolved by the browser, so the canvas gets plain rgb() whatever the role's syntax.
     const probe = document.createElement("i");
@@ -994,96 +998,91 @@ const SummaryImage = (() => {
 
     // Band: AZP's black, its letters in black on a gold plate as at the top of the page, a rule of its gold
     g.fillStyle = c.band;
-    g.fillRect(0, 0, W, 264);
+    g.fillRect(0, 0, W, 240);
     const rule = g.createLinearGradient(0, 0, W, 0);
     rule.addColorStop(0, c.goldDeep);
     rule.addColorStop(0.5, c.goldLight);
     rule.addColorStop(1, c.goldDeep);
     g.fillStyle = rule;
-    g.fillRect(0, 264, W, 10);
+    g.fillRect(0, 240, W, 10);
 
     const wordmark = document.getElementById("wordmark");
-    const markH = 56;
+    const markH = 52;
     const markW = Math.round((markH * wordmark.viewBox.baseVal.width) / wordmark.viewBox.baseVal.height);
-    const plate = g.createLinearGradient(0, 40, 0, 40 + markH + 36);
+    const plate = g.createLinearGradient(0, 40, 0, 40 + markH + 34);
     plate.addColorStop(0, c.goldLight);
     plate.addColorStop(0.55, c.gold);
     plate.addColorStop(1, c.goldDeep);
-    roundRect(g, 64, 40, markW + 56, markH + 36, 16, plate);
-    paintSvg(g, wordmark, 64 + 28, 40 + 18, markH); // its letters are drawn in the plate's ink, as the page shows them
+    roundRect(g, 64, 40, markW + 52, markH + 34, 16, plate);
+    paintSvg(g, wordmark, 64 + 26, 40 + 17, markH); // its letters are drawn in the plate's ink, as the page shows them
 
     g.fillStyle = c.onBand;
-    g.font = font(800, 56);
-    g.fillText("Medição de tanque", 64, 196);
+    g.font = font(800, 54);
+    g.fillText("Medição dos tanques", 64, 178);
     g.fillStyle = c.onBandMuted;
-    g.font = font(500, 30);
-    g.fillText(s.when, 64, 238);
+    g.font = font(500, 28);
+    g.fillText(s.when, 64, 216);
 
-    // The display: product and table on the glass, the liters lit over the unlit segments
-    roundRect(g, 40, 306, W - 80, 436, 36, c.visorBezel);
-    roundRect(g, 64, 330, W - 128, 330, 22, c.visorLine);
-    roundRect(g, 66, 332, W - 132, 326, 21, c.visor);
-    g.fillStyle = c.onBand;
-    g.font = font(800, 46);
-    g.fillText(s.product, X, 400);
-    g.fillStyle = c.visorMuted;
-    g.font = font(500, 26);
-    g.fillText(s.spec, X, 442);
+    // One row a tank: its drawing, what it is and its reading, and the liters lit in a display window
+    const rowH = 244;
+    const gap = 14;
+    s.tanks.forEach((tank, k) => {
+      const y = 274 + k * (rowH + gap);
+      roundRect(g, 40, y, W - 80, rowH, 28, c.line);
+      roundRect(g, 42, y + 2, W - 84, rowH - 4, 27, c.surface);
+      gauge(g, 158, y + rowH / 2 + 4, 84, tank.reading ? tank.ratio : null, tank.depth, c, face);
 
-    const right = W - X;
-    g.textAlign = "right";
-    g.font = font(500, 196, digits);
-    spaced(g, -6);
-    g.fillStyle = c.visorGhost;
-    g.fillText("88.888", right, 622);
-    g.save();
-    g.shadowColor = c.visorGlow;
-    g.shadowBlur = 44;
-    g.fillStyle = c.visorInk;
-    g.fillText(s.liters, right, 622);
-    g.restore();
-    spaced(g, 0);
-    g.fillStyle = c.visorMuted;
-    g.font = font(700, 24);
-    spaced(g, 6);
-    g.fillText("LITROS", right + 6, 710);
-    spaced(g, 0);
-    g.textAlign = "left";
-
-    // The tank, and the reading with what the sheet says about it
-    const top = 774;
-    const tileH = 490;
-    roundRect(g, 40, top, 452, tileH, 32, c.line);
-    roundRect(g, 42, top + 2, 448, tileH - 4, 31, c.surface);
-    gauge(g, 266, top + tileH / 2 + 4, 182, s.ratio, s.depth, c, face);
-
-    const fx = 516;
-    roundRect(g, fx, top, W - 40 - fx, tileH, 32, c.line);
-    roundRect(g, fx + 2, top + 2, W - 44 - fx, tileH - 4, 31, c.surface);
-    const tx = fx + 40;
-    g.fillStyle = c.muted;
-    g.font = font(700, 22);
-    spaced(g, 3);
-    g.fillText("LEITURA DA RÉGUA", tx, top + 62);
-    spaced(g, 0);
-    g.fillStyle = c.ink;
-    g.font = font(800, 64);
-    g.fillText(s.reading, tx, top + 130);
-    g.fillStyle = c.line;
-    g.fillRect(tx, top + 160, W - 80 - tx, 2);
-    s.facts.forEach(([name, value], k) => {
-      const y = top + 212 + k * 70;
-      g.fillStyle = c.muted;
-      g.font = font(500, 24);
-      g.fillText(name, tx, y);
+      const tx = 284;
       g.fillStyle = c.ink;
-      g.font = font(700, 32);
-      g.fillText(value, tx, y + 36);
+      g.font = font(800, 42);
+      g.fillText(tank.product, tx, y + 64);
+      g.fillStyle = c.muted;
+      g.font = font(500, 22);
+      g.fillText(tank.spec, tx, y + 98);
+      if (tank.reading) {
+        g.fillStyle = c.ink;
+        g.font = font(800, 38);
+        g.fillText(tank.reading, tx, y + 152);
+        g.fillStyle = c.muted;
+        g.font = font(500, 22);
+        g.fillText(tank.detail, tx, y + 190);
+        g.fillText(`Medido ${tank.taken}`, tx, y + 220);
+      } else {
+        g.fillStyle = c.muted;
+        g.font = font(700, 30);
+        g.fillText("Sem leitura", tx, y + 160);
+      }
+
+      const vx = 642;
+      const vw = W - 40 - 22 - vx;
+      roundRect(g, vx, y + 22, vw, rowH - 44, 20, c.visorBezel);
+      roundRect(g, vx + 10, y + 32, vw - 20, rowH - 64, 14, c.visor);
+      const right = vx + vw - 30;
+      g.textAlign = "right";
+      g.font = font(500, 86, digits);
+      spaced(g, -3);
+      g.fillStyle = c.visorGhost;
+      g.fillText("88.888", right, y + 142);
+      if (tank.reading) {
+        g.save();
+        g.shadowColor = c.visorGlow;
+        g.shadowBlur = 26;
+        g.fillStyle = c.visorInk;
+        g.fillText(tank.liters, right, y + 142);
+        g.restore();
+      }
+      spaced(g, 0);
+      g.fillStyle = c.visorMuted;
+      g.font = font(700, 18);
+      spaced(g, 5);
+      g.fillText("LITROS", right + 5, y + 184);
+      spaced(g, 0);
+      g.textAlign = "left";
     });
 
     g.fillStyle = c.muted;
-    g.font = font(500, 24);
-    g.fillText(s.footer, 64, 1316);
+    g.font = font(500, 22);
+    g.fillText(s.footer, 64, 1322);
 
     return canvas;
   }
@@ -1111,19 +1110,26 @@ const SummaryImage = (() => {
   const store = {
     get(key) { try { return localStorage.getItem(STORE + key); } catch { return null; } },
     set(key, value) { try { localStorage.setItem(STORE + key, value); } catch {} },
+    remove(key) { try { localStorage.removeItem(STORE + key); } catch {} },
   };
 
   const byId = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
   let productId = byId[store.get("product")] ? store.get("product") : PRODUCTS[0].id;
-  let current = null; // the last valid measurement, for copying and sharing
+  let current = null; // the chosen product's valid measurement, for copying
   const tableOf = (id) => TABLES[byId[id].table];
 
+  // Each product keeps its own reading and the moment it was typed, { id: { value, at } }, so the
+  // shared picture can hold the four tanks, each with its own hour.
+  let readings = {};
+  try { readings = JSON.parse(store.get("readings") || "{}") || {}; } catch { readings = {}; }
+  const saveReadings = () => store.set("readings", JSON.stringify(readings));
+  store.remove("reading"); // the single reading kept before 2026-11-15
+
   const input = $("reading");
-  const saved = store.get("reading");
-  if (saved !== null) input.value = saved;
 
   // Products
   const productsEl = $("products");
+  const specs = {}; // each key's second line: its tank's reading and liters, or that it has none
   for (const p of PRODUCTS) {
     const t = TABLES[p.table];
     const b = document.createElement("button");
@@ -1137,6 +1143,7 @@ const SummaryImage = (() => {
     const spec = document.createElement("span");
     spec.className = "spec";
     spec.textContent = `${fmt(t.nominal)} L · ${t.model.replace(/ /g, "")}`;
+    specs[p.id] = spec;
     b.append(name, spec);
     b.addEventListener("click", () => selectProduct(p.id));
     productsEl.append(b);
@@ -1179,7 +1186,7 @@ const SummaryImage = (() => {
 
   function parse(raw) {
     const s = raw.trim().replace(",", ".");
-    if (s === "") return { error: "Digite a leitura em centímetros." };
+    if (s === "") return { empty: true };
     if (!/^\d+(\.\d+)?$/.test(s)) return { error: "Use só números, como 156 ou 156,5." };
     const cm = parseFloat(s);
     if (cm > MAX_CM) return { error: "A tabela vai de 0 a 254 cm." };
@@ -1191,6 +1198,24 @@ const SummaryImage = (() => {
     const i = Math.floor(cm);
     const f = cm - i;
     return f === 0 ? liters[i] : liters[i] + (liters[i + 1] - liters[i]) * f;
+  }
+
+  // One product's tank from its kept reading, or null when it has none that reads.
+  function measure(id) {
+    const r = readings[id];
+    if (!r) return null;
+    const p = parse(r.value);
+    if (p.empty || p.error) return null;
+    const t = tableOf(id);
+    const vol = volumeAt(t.liters, p.cm);
+    return { product: byId[id], table: t, cm: p.cm, vol, liters: Math.round(vol), at: r.at };
+  }
+
+  function refreshKeys() {
+    for (const p of PRODUCTS) {
+      const m = measure(p.id);
+      specs[p.id].textContent = m ? `${fmt(m.cm)} cm · ${fmt(m.liters)} L` : "Sem leitura";
+    }
   }
 
   function buildTable() {
@@ -1236,15 +1261,17 @@ const SummaryImage = (() => {
     const product = byId[productId];
     const t = tableOf(productId);
     const p = parse(input.value);
-    store.set("reading", input.value);
     $("which").textContent = `${product.name} · ${t.model}`;
 
-    const ok = !p.error;
-    input.setAttribute("aria-invalid", String(!ok));
-    for (const id of ["volume", "copy", "facts", "share"]) $(id).hidden = !ok;
+    const ok = !p.empty && !p.error;
+    input.setAttribute("aria-invalid", String(Boolean(p.error)));
+    for (const id of ["volume", "copy", "facts"]) $(id).hidden = !ok;
+    $("share").hidden = !PRODUCTS.some((x) => measure(x.id));
+    refreshKeys();
     $("error").hidden = ok;
     if (!ok) {
-      $("error").textContent = p.error;
+      $("error").textContent = p.empty ? "Sem leitura. Digite os centímetros da régua." : p.error;
+      $("error").dataset.kind = p.empty ? "empty" : "invalid";
       current = null;
       setGauge(null);
       highlight(null);
@@ -1275,15 +1302,24 @@ const SummaryImage = (() => {
     productId = id;
     store.set("product", id);
     productsEl.querySelectorAll(".product").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.id === id)));
+    input.value = readings[id]?.value ?? "";
     buildTable();
+    update();
+  }
+
+  // A reading typed, stepped or taken from the table is kept for the chosen product, with its hour.
+  function record() {
+    if (input.value.trim() === "") delete readings[productId];
+    else readings[productId] = { value: input.value, at: Date.now() };
+    saveReadings();
     update();
   }
 
   function step(delta) {
     const p = parse(input.value);
-    const base = p.error ? 0 : Math.round(p.cm);
+    const base = p.empty || p.error ? 0 : Math.round(p.cm);
     input.value = String(Math.min(MAX_CM, Math.max(0, base + delta)));
-    update();
+    record();
   }
 
   // Toast
@@ -1321,39 +1357,58 @@ const SummaryImage = (() => {
     }
   });
 
-  // Share: the summary as a picture, through the phone's own share sheet
+  // Share: the four tanks in one picture, through the phone's own share sheet. Each tank carries the
+  // hour its reading was typed, and the day when it was not today, so an old reading reads as old.
   const pad = (n) => String(n).padStart(2, "0");
-  function summary(m, now) {
+  const hour = (d) => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  function takenAt(at, now) {
+    const d = new Date(at);
+    const yesterday = new Date(now);
+    yesterday.setDate(now.getDate() - 1);
+    if (d.toDateString() === now.toDateString()) return `às ${hour(d)}`;
+    if (d.toDateString() === yesterday.toDateString()) return `ontem às ${hour(d)}`;
+    return `${pad(d.getDate())}/${pad(d.getMonth() + 1)} às ${hour(d)}`;
+  }
+  function summary(now) {
     const day = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
-    const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
     const stamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+    const tanks = PRODUCTS.map((p) => {
+      const t = tableOf(p.id);
+      const tank = { product: p.name, spec: `${t.model} · ${fmt(t.nominal)} L`, depth: t.diameter_m * 100 };
+      const m = measure(p.id);
+      if (!m) return { ...tank, reading: null };
+      const room = t.nominal - m.liters;
+      return {
+        ...tank,
+        reading: `${fmt(m.cm)} cm`,
+        liters: fmt(m.liters),
+        ratio: m.cm / tank.depth,
+        detail: `${Math.round((m.vol / t.nominal) * 100)}% · ${room >= 0 ? `cabe ${fmt(room)} L` : `${fmt(-room)} L acima`}`,
+        taken: takenAt(m.at, now),
+      };
+    });
+    const models = [...new Set(PRODUCTS.map((p) => tableOf(p.id).model.replace(/ /g, "")))];
     return {
-      product: m.product.name,
-      spec: `${m.table.model} · ${m.table.kind} de ${fmt(m.table.nominal)} L`,
-      reading: `${fmt(m.cm)} cm`,
-      liters: fmt(m.liters),
-      ratio: m.cm / (m.table.diameter_m * 100),
-      depth: m.table.diameter_m * 100, // the tank's height in cm, for the dipstick's marks
-      facts: m.facts,
-      when: `${day} às ${time}`,
-      footer: `Tabela TRN ${m.table.model} · tanque nivelado · tolerância de 0,8%`,
-      fileName: `medicao-${m.product.id}-${stamp}.png`,
+      tanks,
+      when: `${day} às ${hour(now)}`,
+      footer: `Tabelas TRN ${models.join(" e ")} · tanques nivelados · tolerância de 0,8%`,
+      fileName: `medicao-tanques-${stamp}.png`,
     };
   }
 
   let lastUrl = null;
   $("share").addEventListener("click", () => {
-    if (!current) return;
+    if (!PRODUCTS.some((p) => measure(p.id))) return;
     let file;
     try {
-      const s = summary(current, new Date());
+      const s = summary(new Date());
       file = SummaryImage.toFile(SummaryImage.draw(s), s.fileName);
     } catch {
       toast("Não foi possível gerar a imagem");
       return;
     }
     if (navigator.canShare?.({ files: [file] })) {
-      navigator.share({ files: [file], title: "Medição de tanque" }).catch((e) => {
+      navigator.share({ files: [file], title: "Medição dos tanques" }).catch((e) => {
         if (e.name !== "AbortError") toast("Não foi possível compartilhar");
       });
       return;
@@ -1373,11 +1428,11 @@ const SummaryImage = (() => {
     const b = e.target.closest("button[data-cm]");
     if (!b) return;
     input.value = b.dataset.cm;
-    update();
+    record();
     input.scrollIntoView({ behavior: "smooth", block: "center" });
   });
 
-  input.addEventListener("input", update);
+  input.addEventListener("input", record);
   input.addEventListener("focus", () => input.select());
   input.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp") { e.preventDefault(); step(1); }
