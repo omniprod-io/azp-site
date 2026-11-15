@@ -17,6 +17,7 @@
 :root {
   /* AZP */
   --band: #141414;
+  --band-stripe: #1F1F1F; /* the band's other stripe, a very dark grey */
   --on-band: #F4F4F4;
   --on-band-muted: #ABABA4;
   --gold: #D2AE4A;
@@ -68,6 +69,12 @@
   --mark-halo: #FFFFFF;
   --level: #141414;
 
+  /* The shared picture is dark in both themes and takes the dark values of the roles; these are its
+     own, the fuel of its ground: a near-black orange at the surface, darker below, a light on the crest. */
+  --picture-fuel: #4A240B;
+  --picture-fuel-deep: #1A0B03;
+  --picture-crest: rgb(255 160 80 / .5);
+
   --danger: #A8261D;
   --on-danger: #FFFFFF;
   --focus: #1F6FB2;
@@ -81,6 +88,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --band: #050505;
+    --band-stripe: #111111;
     --on-band: #EDEDE8;
     --on-band-muted: #8F8E87;
     --gold: #D2AE4A;
@@ -160,8 +168,12 @@ button { font: inherit; color: inherit; }
    The plate is a little taller than the title with its subtitle: their two lines plus --overhang
    above and below, the letters filling what the plate's padding leaves. On a 375 px phone the
    subtitle keeps one line beside the plate. */
+/* The band is striped, his ask from a picture of stripes, in black and a very dark grey instead of its
+   blues: at 45°, rising to the right, 14 px apart across them as in his picture, each half and half
+   with a pixel's blend at its edges so they do not step. The shared picture draws the same stripes. */
 .band {
-  background: var(--band); color: var(--on-band);
+  background: repeating-linear-gradient(135deg, var(--band) 0 6px, var(--band-stripe) 7px 13px, var(--band) 14px);
+  color: var(--on-band);
   border-bottom: 3px solid var(--gold);
   border-image: linear-gradient(90deg, var(--gold-deep), var(--gold-light) 50%, var(--gold-deep)) 1;
 }
@@ -887,16 +899,19 @@ const Display = (() => {
   return { lit, unlit, width: DISPLAY.width, height: DISPLAY.height, top: DISPLAY.top, digit: DISPLAY.digit };
 })();
 // The four tanks' measurements, drawn as one 1080 × 1350 picture to share.
-// Colours and font are read from the page's roles, so the picture follows page.css;
-// AZP's letters are painted from the page's own inline SVG (#wordmark), so they have one source.
+// Colours and font are read from the page's roles, so the picture follows page.css; it is dark in
+// both themes, so it takes the dark values. AZP's letters are painted from the page's own inline SVG
+// (#wordmark), so they have one source.
 const SummaryImage = (() => {
   const W = 1080;
   const H = 1350;
   const DIGIT_PX = 84; // the liters' digits in the window of each row
+  const GLASS = 0.5; // a row's panel: its colour at half opacity, his 50%,
+  const BLUR = 50; // over the ground behind it blurred by 50 px, his 50
 
   const role = (name) => getComputedStyle(document.documentElement).getPropertyValue(`--${name}`).trim();
 
-  function roundRect(g, x, y, w, h, r, fill) {
+  function roundPath(g, x, y, w, h, r) {
     g.beginPath();
     g.moveTo(x + r, y);
     g.arcTo(x + w, y, x + w, y + h, r);
@@ -904,8 +919,108 @@ const SummaryImage = (() => {
     g.arcTo(x, y + h, x, y, r);
     g.arcTo(x, y, x + w, y, r);
     g.closePath();
+  }
+
+  function roundRect(g, x, y, w, h, r, fill) {
+    roundPath(g, x, y, w, h, r);
     g.fillStyle = fill;
     g.fill();
+  }
+
+  // The dark value of each role, from the dark blocks of the page's own stylesheet, so the picture
+  // is dark in both themes with its colours still written once in page.css.
+  function darkRoles() {
+    const out = {};
+    // Array.from takes the lists by their indices, which every browser gives them.
+    for (const sheet of Array.from(document.styleSheets)) {
+      for (const rule of Array.from(sheet.cssRules)) {
+        const condition = rule.conditionText ?? rule.media?.mediaText ?? "";
+        if (!/prefers-color-scheme:\s*dark/.test(condition)) continue;
+        for (const inner of Array.from(rule.cssRules)) {
+          if (!inner.selectorText?.split(",").some((sel) => sel.trim() === ":root")) continue;
+          for (const prop of Array.from(inner.style)) {
+            if (prop.startsWith("--")) out[prop.slice(2)] = inner.style.getPropertyValue(prop).trim();
+          }
+        }
+      }
+    }
+    return out;
+  }
+
+  // The ground of the picture, the inside of a tank: fuel of a near-black orange, darker with depth,
+  // under the black of the empty part, its surface a wave (a long swell with a shorter ripple on it),
+  // a fainter wave behind it, and a thin light along the crest. level is the middle of the wave.
+  function fuelGround(top, level, c) {
+    const ground = document.createElement("canvas");
+    ground.width = W;
+    ground.height = H;
+    const g = ground.getContext("2d");
+    g.fillStyle = c.page;
+    g.fillRect(0, top, W, H - top);
+    const surface = (x, phase) =>
+      level + 42 * Math.sin((x / W) * 2.2 * Math.PI + phase) + 14 * Math.sin((x / W) * 5.4 * Math.PI + 1.7 * phase);
+    const line = (phase, lift) => {
+      const p = new Path2D();
+      p.moveTo(0, surface(0, phase) - lift);
+      for (let x = 6; x <= W; x += 6) p.lineTo(x, surface(x, phase) - lift);
+      return p;
+    };
+    const body = (phase, lift) => {
+      const p = line(phase, lift);
+      p.lineTo(W, H);
+      p.lineTo(0, H);
+      p.closePath();
+      return p;
+    };
+    const depth = g.createLinearGradient(0, level - 40, 0, H);
+    depth.addColorStop(0, c.pictureFuel);
+    depth.addColorStop(1, c.pictureFuelDeep);
+    g.fillStyle = depth;
+    g.globalAlpha = 0.45;
+    g.fill(body(2.3, 30));
+    g.globalAlpha = 1;
+    g.fill(body(0, 0));
+    g.strokeStyle = c.pictureCrest;
+    g.lineWidth = 3;
+    g.stroke(line(0, 0));
+    return ground;
+  }
+
+  // The ground as seen through a panel, blurred by BLUR px: three box blurs make a Gaussian, at a
+  // quarter of the size, which a blur this wide leaves with nothing to lose, then drawn back at full.
+  function blurred(src) {
+    const f = 4;
+    const w = Math.ceil(W / f);
+    const h = Math.ceil(H / f);
+    const small = document.createElement("canvas");
+    small.width = w;
+    small.height = h;
+    const s = small.getContext("2d");
+    s.imageSmoothingQuality = "high";
+    s.drawImage(src, 0, 0, w, h);
+    const img = s.getImageData(0, 0, w, h);
+    const r = Math.round((Math.sqrt((12 * (BLUR / f) ** 2) / 3 + 1) - 1) / 2);
+    const tmp = new Float32Array(img.data.length);
+    const pass = (from, to, len, lines, step, lineStep) => {
+      for (let l = 0; l < lines; l++) {
+        const base = l * lineStep;
+        for (let ch = 0; ch < 4; ch++) {
+          const at = (i) => from[base + Math.min(len - 1, Math.max(0, i)) * step + ch];
+          let sum = 0;
+          for (let i = -r; i <= r; i++) sum += at(i);
+          for (let i = 0; i < len; i++) {
+            to[base + i * step + ch] = sum / (2 * r + 1);
+            sum += at(i + r + 1) - at(i - r);
+          }
+        }
+      }
+    };
+    for (let k = 0; k < 3; k++) {
+      pass(img.data, tmp, w, h, 4, w * 4);
+      pass(tmp, img.data, h, w, w * 4, 4);
+    }
+    s.putImageData(img, 0, 0);
+    return small;
   }
 
   function spaced(g, px) {
@@ -1077,20 +1192,23 @@ const SummaryImage = (() => {
     return top + (lineHeight - (m.fontBoundingBoxAscent + m.fontBoundingBoxDescent)) / 2 + m.fontBoundingBoxAscent;
   }
 
-  // s: { tanks: [{ product, depth, reading|null, liters, ratio, detail, old|null }], when, footer }
+  // s: { tanks: [{ product, depth, reading|null, liters, ratio, detail, old|null }], fill, when, footer }
   function draw(s) {
     // Each colour is resolved by the browser, so the canvas gets plain rgb() whatever the role's syntax.
+    // A role with no dark value, such as the picture's own fuel, is the one :root gives.
+    const dark = darkRoles();
     const probe = document.createElement("i");
     document.body.append(probe);
     const colour = (name) => {
-      probe.style.color = `var(--${name})`;
+      probe.style.color = dark[name] ?? `var(--${name})`;
       return getComputedStyle(probe).color;
     };
     const c = Object.fromEntries([
-      "page", "surface", "ink", "muted", "line", "band", "on-band", "on-band-muted",
+      "page", "surface", "ink", "muted", "line", "band", "band-stripe", "on-band", "on-band-muted",
       "gold", "gold-light", "gold-deep", "fuel", "fuel-top", "fuel-low",
       "visor", "visor-bezel", "visor-line", "visor-ink", "visor-glow", "visor-ghost", "visor-muted",
       "tank-empty", "tank-shell", "rod", "rod-mark", "mark", "mark-halo", "level", "danger",
+      "picture-fuel", "picture-fuel-deep", "picture-crest",
     ].map((name) => [name.replace(/-(\w)/g, (_, ch) => ch.toUpperCase()), colour(name)]));
     probe.remove();
     const face = role("font");
@@ -1101,9 +1219,6 @@ const SummaryImage = (() => {
     canvas.height = H;
     const g = canvas.getContext("2d");
     g.textBaseline = "alphabetic";
-
-    g.fillStyle = c.page;
-    g.fillRect(0, 0, W, H);
 
     // Band: as at the top of the page, AZP's letters in black on a gold plate beside the title and the
     // moment of the measurement, the plate a little taller than their two lines; the page's phone
@@ -1123,8 +1238,35 @@ const SummaryImage = (() => {
     const bandH = bandPad + plateH + bandPad;
     const ruleH = 10;
 
+    // The whole picture opaque first: the band's edge falls between pixels, and a pixel left partly
+    // clear there showed whatever the picture was laid on.
+    g.fillStyle = c.page;
+    g.fillRect(0, 0, W, H);
+    // The fuel stands as high in the picture, below the rule, as the four tanks are full together.
+    const inside = bandH + ruleH;
+    const ground = fuelGround(bandH, inside + (1 - s.fill) * (H - inside), c);
+    const frosted = blurred(ground);
+    g.drawImage(ground, 0, 0);
     g.fillStyle = c.band;
     g.fillRect(0, 0, W, bandH);
+    // its stripes, as on the page: at 45°, rising to the right, half and half, 14 px apart across them
+    // at the page's size, so 14 k here; along a row that is √2 times as far
+    const along = 14 * k * Math.SQRT2;
+    g.save();
+    g.beginPath();
+    g.rect(0, 0, W, bandH);
+    g.clip();
+    g.fillStyle = c.bandStripe;
+    for (let x = 0; x < W + bandH; x += along) {
+      g.beginPath();
+      g.moveTo(x, 0);
+      g.lineTo(x + along / 2, 0);
+      g.lineTo(x + along / 2 - bandH, bandH);
+      g.lineTo(x - bandH, bandH);
+      g.closePath();
+      g.fill();
+    }
+    g.restore();
     const rule = g.createLinearGradient(0, 0, W, 0);
     rule.addColorStop(0, c.goldDeep);
     rule.addColorStop(0.5, c.goldLight);
@@ -1165,8 +1307,20 @@ const SummaryImage = (() => {
     s.tanks.forEach((tank, i) => {
       const y = rowsTop + i * (rowH + gap);
       const mid = y + rowH / 2;
-      roundRect(g, 40, y, W - 80, rowH, 28, c.line);
-      roundRect(g, 42, y + 2, W - 84, rowH - 4, 27, c.surface);
+      // its panel, glass: the blurred ground, the surface at GLASS over it, and the line around
+      g.save();
+      roundPath(g, 40, y, W - 80, rowH, 28);
+      g.clip();
+      g.imageSmoothingQuality = "high";
+      g.drawImage(frosted, 0, 0, W, H);
+      g.globalAlpha = GLASS;
+      g.fillStyle = c.surface;
+      g.fill();
+      g.restore();
+      roundPath(g, 41, y + 1, W - 82, rowH - 2, 27);
+      g.lineWidth = 2;
+      g.strokeStyle = c.line;
+      g.stroke();
       gauge(g, 158, mid + 4, 84, tank.reading ? tank.ratio : null, tank.depth, c, face);
 
       // its lines, as one block centred on the row: [font, colour, text, baseline below the first]
@@ -1570,8 +1724,14 @@ const SummaryImage = (() => {
       };
     });
     const models = [...new Set(PRODUCTS.map((p) => tableOf(p.id).model.replace(/ /g, "")))];
+    // How full the four tanks are together, his ask: the liters read over the nominal of the tanks
+    // that have a reading, so a tank with none neither empties nor fills the picture's fuel.
+    const read = PRODUCTS.filter((p) => measure(p.id));
+    const fill = read.reduce((sum, p) => sum + measure(p.id).liters, 0) /
+      read.reduce((sum, p) => sum + tableOf(p.id).nominal, 0);
     return {
       tanks,
+      fill,
       when: `${dayMonth(latest)}/${latest.getFullYear()} às ${hour(latest)}`,
       footer: `Tabelas TRN ${models.join(" e ")} · tanques nivelados · tolerância de 0,8%`,
       fileName: `medicao-tanques-${stamp}.png`,
