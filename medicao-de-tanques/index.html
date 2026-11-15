@@ -1,0 +1,1408 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#141414">
+<title>Medição de Tanques · AZP</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cdefs%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20.st0%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient9%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st1%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient8%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st2%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%239a9a9a%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st3%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient10%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st4%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%238c6c1e%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st5%2C%20.st6%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23f4f4f4%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st6%20%7B%0A%20%20%20%20%20%20%20%20stroke%3A%20%23f4f4f4%3B%0A%20%20%20%20%20%20%20%20stroke-linejoin%3A%20round%3B%0A%20%20%20%20%20%20%20%20stroke-width%3A%2018px%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st7%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient6%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st7%2C%20.st8%2C%20.st9%2C%20.st10%2C%20.st11%2C%20.st12%2C%20.st13%20%7B%0A%20%20%20%20%20%20%20%20stroke-width%3A%204px%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st7%2C%20.st8%2C%20.st9%2C%20.st10%2C%20.st11%2C%20.st12%2C%20.st13%2C%20.st14%20%7B%0A%20%20%20%20%20%20%20%20stroke%3A%20%23f6e296%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st8%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient4%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st9%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient3%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st10%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient5%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st11%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient1%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st12%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient2%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st13%2C%20.st15%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23141414%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st16%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23fff%3B%0A%20%20%20%20%20%20%20%20font-family%3A%20HelveticaNeue-Medium%2C%20%27Helvetica%20Neue%27%3B%0A%20%20%20%20%20%20%20%20font-size%3A%2044px%3B%0A%20%20%20%20%20%20%20%20font-weight%3A%20500%3B%0A%20%20%20%20%20%20%20%20isolation%3A%20isolate%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st14%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient%29%3B%0A%20%20%20%20%20%20%20%20stroke-width%3A%205px%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st17%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient7%29%3B%0A%20%20%20%20%20%20%20%20fill-rule%3A%20evenodd%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st18%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient18%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st18%2C%20.st19%2C%20.st20%2C%20.st21%2C%20.st22%2C%20.st23%2C%20.st24%2C%20.st25%20%7B%0A%20%20%20%20%20%20%20%20stroke%3A%20%23a5832a%3B%0A%20%20%20%20%20%20%20%20stroke-width%3A%202px%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st19%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient11%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st20%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient16%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st21%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient17%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st22%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient15%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st23%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient12%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st24%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient13%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st25%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20url%28%23linear-gradient14%29%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C/style%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient%22%20x1%3D%22510%22%20y1%3D%221074%22%20x2%3D%22510%22%20y2%3D%22714%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f0d888%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23b8932f%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient1%22%20x1%3D%22510%22%20y1%3D%221074%22%20x2%3D%22510%22%20y2%3D%22714%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f0d888%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23b8932f%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient2%22%20x1%3D%22474.02%22%20y1%3D%221074%22%20x2%3D%22474.02%22%20y2%3D%22714%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f0d888%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23b8932f%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient3%22%20x1%3D%22545.98%22%20y1%3D%221074%22%20x2%3D%22545.98%22%20y2%3D%22714%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f0d888%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23b8932f%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient4%22%20x1%3D%22486%22%20y1%3D%221074%22%20x2%3D%22486%22%20y2%3D%22714%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f0d888%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23b8932f%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient5%22%20x1%3D%22534%22%20y1%3D%221074%22%20x2%3D%22534%22%20y2%3D%22714%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f0d888%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23b8932f%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient6%22%20x1%3D%22510%22%20y1%3D%221074%22%20x2%3D%22510%22%20y2%3D%22714%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f0d888%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23b8932f%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient7%22%20x1%3D%22257.21%22%20y1%3D%22714%22%20x2%3D%22257.21%22%20y2%3D%22424%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23efe3ba%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22.45%22%20stop-color%3D%22%23fff%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23f4f4f2%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient8%22%20x1%3D%22508.36%22%20y1%3D%22714%22%20x2%3D%22508.36%22%20y2%3D%22424%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23efe3ba%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22.45%22%20stop-color%3D%22%23fff%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23f4f4f2%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient9%22%20x1%3D%22733.61%22%20y1%3D%22714%22%20x2%3D%22733.61%22%20y2%3D%22424%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23efe3ba%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22.45%22%20stop-color%3D%22%23fff%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23f4f4f2%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient10%22%20x1%3D%22828.8%22%20y1%3D%22714%22%20x2%3D%22828.8%22%20y2%3D%22424%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23efe3ba%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22.45%22%20stop-color%3D%22%23fff%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23f4f4f2%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient11%22%20x1%3D%22128%22%20y1%3D%22334%22%20x2%3D%22128%22%20y2%3D%2214%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f3dc8e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23d4b04e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a9852a%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient12%22%20x1%3D%22270%22%20y1%3D%22334%22%20x2%3D%22270%22%20y2%3D%2214%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f3dc8e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23d4b04e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a9852a%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient13%22%20x1%3D%22366%22%20y1%3D%22334%22%20x2%3D%22366%22%20y2%3D%2214%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f3dc8e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23d4b04e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a9852a%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient14%22%20x1%3D%22892%22%20y1%3D%22334%22%20x2%3D%22892%22%20y2%3D%2214%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f3dc8e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23d4b04e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a9852a%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient15%22%20x1%3D%22750%22%20y1%3D%22334%22%20x2%3D%22750%22%20y2%3D%2214%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f3dc8e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23d4b04e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a9852a%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient16%22%20x1%3D%22654%22%20y1%3D%22334%22%20x2%3D%22654%22%20y2%3D%2214%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f3dc8e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23d4b04e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a9852a%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient17%22%20x1%3D%22451%22%20y1%3D%22334%22%20x2%3D%22451%22%20y2%3D%2214%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f3dc8e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23d4b04e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a9852a%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22linear-gradient18%22%20x1%3D%22569%22%20y1%3D%22334%22%20x2%3D%22569%22%20y2%3D%2214%22%20gradientTransform%3D%22translate%280%201084%29%20scale%281%20-1%29%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23e2c56e%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%239a7924%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%3C/defs%3E%0A%20%20%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22%23141414%22%20/%3E%3Cg%20transform%3D%22translate%28-42.20%2018.46%29%20scale%280.18079%29%22%3E%3Cg%20id%3D%22azp-crown%22%3E%0A%20%20%20%20%3Cpath%20class%3D%22st14%22%20d%3D%22M344%2C361l-11-273%2C65%2C140%2C28-152%2C56%2C162h56l56-162%2C28%2C152%2C65-140-11%2C273H344Z%22%20/%3E%0A%20%20%20%20%3Cg%3E%0A%20%20%20%20%20%20%3Cpath%20class%3D%22st11%22%20d%3D%22M510%2C10c13%2C16%2C23%2C36%2C23%2C57%2C0%2C19-8%2C31-14%2C43h-18c-6-12-14-24-14-43C487%2C46%2C497%2C26%2C510%2C10Z%22%20/%3E%0A%20%20%20%20%20%20%3Cpath%20class%3D%22st12%22%20d%3D%22M496%2C118c-12-12-30-6-38-16-10-12-7-30%2C6-36%2C14-7%2C30%2C2%2C29%2C16-1%2C9-10%2C12-15%2C6%22%20/%3E%0A%20%20%20%20%20%20%3Cpath%20class%3D%22st9%22%20d%3D%22M524%2C118c12-12%2C30-6%2C38-16%2C10-12%2C7-30-6-36-14-7-30%2C2-29%2C16%2C1%2C9%2C10%2C12%2C15%2C6%22%20/%3E%0A%20%20%20%20%20%20%3Ccircle%20class%3D%22st8%22%20cx%3D%22486%22%20cy%3D%22138%22%20r%3D%2215%22%20/%3E%0A%20%20%20%20%20%20%3Ccircle%20class%3D%22st10%22%20cx%3D%22534%22%20cy%3D%22138%22%20r%3D%2215%22%20/%3E%0A%20%20%20%20%20%20%3Cpath%20class%3D%22st7%22%20d%3D%22M496%2C108h28c2%2C52%2C18%2C96%2C38%2C132h-104C478%2C204%2C494%2C160%2C496%2C108Z%22%20/%3E%0A%20%20%20%20%3C/g%3E%0A%20%20%20%20%3Cpath%20class%3D%22st13%22%20d%3D%22M510%2C206c13%2C24%2C14%2C84%2C0%2C114C496%2C290%2C497%2C230%2C510%2C206Z%22%20/%3E%0A%20%20%3C/g%3E%0A%20%20%3C/g%3E%3C/svg%3E">
+<style>
+/* Colours are roles: each is written once here, its dark value in the block below.
+   The black, the gold and the white are AZP's, from its logo. The page is the face of a pump:
+   a body (page, surface, keys), a display window (visor), and the tank it reads. */
+:root {
+  /* AZP */
+  --band: #141414;
+  --band-line: #34332F;
+  --on-band: #F4F4F4;
+  --on-band-muted: #ABABA4;
+  --gold: #D2AE4A;
+  --gold-light: #F0D888;
+  --gold-deep: #A9852A;
+  --on-gold: #141414;
+  --gold-sheen: rgb(255 255 255 / .35);
+
+  /* The pump's body */
+  --page: #E7E6E2;
+  --surface: #FFFFFF;
+  --tile: #F3F2EF;
+  --ink: #141414;
+  --muted: #5C5B56;
+  --line: #D4D3CD;
+  --key-edge: #C4C3BC;
+  --key-on: #141414;
+  --on-key-on: #F4F4F4;
+  --on-key-on-muted: #B4B3AC;
+  --lamp-off: #D9D8D2;
+  --lamp-on: #F0D888;
+  --lamp-glow: rgb(240 216 136 / .7);
+  --shadow: rgb(20 20 20 / .10);
+
+  /* The display: lit gold segments on black, the unlit ones faintly behind */
+  --visor: #0A0A09;
+  --visor-bezel: #1A1A18;
+  --visor-line: #2E2D29;
+  --visor-ink: #F0D888;
+  --visor-glow: rgb(240 216 136 / .42);
+  --visor-ghost: rgb(240 216 136 / .07);
+  --visor-muted: #A8A189;
+  --visor-sheen: rgb(255 255 255 / .06);
+  --visor-shade: rgb(0 0 0 / .65);
+  --visor-danger: #FF9C8C;
+  --visor-focus: #8CC4F5;
+
+  /* The tank */
+  --fuel: #D2AE4A;
+  --fuel-top: #F0D888;
+  --fuel-low: #B38E2C;
+  --fuel-soft: #F4E6B8;
+  --tank-empty: #EEEDE9;
+  --tank-shell: #141414;
+  --rod: rgb(255 255 255 / .84);
+  --rod-mark: #141414;
+  --mark: #141414;
+  --mark-halo: #FFFFFF;
+  --level: #141414;
+
+  --danger: #A8261D;
+  --focus: #1F6FB2;
+  --toast: #141414;
+  --on-toast: #F4F4F4;
+
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Roboto Mono", "Liberation Mono", monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --band: #050505;
+    --band-line: #2A2925;
+    --on-band: #EDEDE8;
+    --on-band-muted: #8F8E87;
+    --gold: #D2AE4A;
+    --gold-light: #F0D888;
+    --gold-deep: #A9852A;
+    --on-gold: #141414;
+    --gold-sheen: rgb(255 255 255 / .25);
+
+    --page: #0B0B0A;
+    --surface: #151513;
+    --tile: #1C1C1A;
+    --ink: #EDEDE8;
+    --muted: #A3A29A;
+    --line: #2B2A27;
+    --key-edge: #030303;
+    --key-on: #2A2516;
+    --on-key-on: #F0D888;
+    --on-key-on-muted: #B9AE88;
+    --lamp-off: #34332F;
+    --lamp-on: #F0D888;
+    --lamp-glow: rgb(240 216 136 / .55);
+    --shadow: rgb(0 0 0 / .45);
+
+    --visor: #020202;
+    --visor-bezel: #1A1A18;
+    --visor-line: #2E2D29;
+    --visor-ink: #F0D888;
+    --visor-glow: rgb(240 216 136 / .5);
+    --visor-ghost: rgb(240 216 136 / .065);
+    --visor-muted: #A8A189;
+    --visor-sheen: rgb(255 255 255 / .05);
+    --visor-shade: rgb(0 0 0 / .8);
+    --visor-danger: #FF9C8C;
+    --visor-focus: #8CC4F5;
+
+    --fuel: #D6B354;
+    --fuel-top: #F0D888;
+    --fuel-low: #9F7E27;
+    --fuel-soft: #3A3218;
+    --tank-empty: #1F1F1C;
+    --tank-shell: #C9C8BF;
+    --rod: rgb(240 238 228 / .88);
+    --rod-mark: #141414;
+    --mark: #EDEDE8;
+    --mark-halo: #151513;
+    --level: #EDEDE8;
+
+    --danger: #F08A80;
+    --focus: #7AB8EE;
+    --toast: #EDEDE8;
+    --on-toast: #141414;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.45 var(--font); }
+[hidden] { display: none !important; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+button { font: inherit; color: inherit; }
+.sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+
+/* The band at the top: AZP's black, its letters, and a rule of its gold. */
+.band {
+  background: var(--band); color: var(--on-band);
+  border-bottom: 3px solid var(--gold);
+  border-image: linear-gradient(90deg, var(--gold-deep), var(--gold-light) 50%, var(--gold-deep)) 1;
+}
+.band-inner {
+  max-width: 560px; margin: 0 auto; display: grid; gap: 12px; justify-items: start;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 14px);
+  padding-bottom: 14px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+/* AZP's letters from its logo, and the logo's line beside them */
+.brand { display: flex; align-items: center; gap: 10px; }
+.wordmark { display: block; height: 30px; width: auto; }
+.brand-tag {
+  padding-left: 10px; border-left: 1px solid var(--gold);
+  font-size: 10px; line-height: 1.25; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold);
+}
+.title { display: grid; gap: 2px; }
+h1 { margin: 0; font-size: 22px; line-height: 1.15; font-weight: 800; letter-spacing: -.01em; }
+.band-sub { margin: 0; font-size: 13px; line-height: 1.35; color: var(--on-band-muted); }
+
+/* The board. On the phone one column, the display first; the two groups only hold their parts.
+   Its two tracks serve only the tank and its facts, side by side; everything else spans both. */
+.board {
+  max-width: 560px; margin: 0 auto; display: grid; gap: 16px 12px;
+  grid-template-columns: minmax(0, clamp(140px, 36vw, 210px)) minmax(0, 1fr);
+  padding-top: 16px;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 36px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.controls, .readouts { display: contents; }
+.board > *, .controls > *, .readouts > * { min-width: 0; grid-column: 1 / -1; }
+.visor { order: 1; }
+.reading { order: 2; }
+.nozzles { order: 3; }
+.tank { order: 4; grid-column: 1; }
+.facts { order: 4; grid-column: 2; }
+.share { order: 5; }
+.sheet { order: 6; }
+.notes { order: 7; }
+
+.label {
+  display: block; margin: 0 0 8px; font-size: 12px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+
+/* The display */
+.visor {
+  display: grid; padding: 10px; border-radius: 18px;
+  background: linear-gradient(180deg, var(--visor-sheen), transparent 30%), var(--visor-bezel);
+  box-shadow: inset 0 0 0 1px var(--visor-line), 0 12px 28px var(--shadow);
+}
+.visor :focus-visible { outline-color: var(--visor-focus); }
+.visor-glass {
+  display: grid; gap: 2px; padding: 12px 14px 8px; border-radius: 10px;
+  background: linear-gradient(180deg, var(--visor-sheen), transparent 42%), var(--visor);
+  box-shadow: inset 0 3px 12px var(--visor-shade), inset 0 0 0 1px var(--visor-line);
+}
+.which {
+  margin: 0; font-size: 12px; line-height: 1.3; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--visor-muted);
+}
+.readout { display: grid; container-type: inline-size; }
+.readout::before, #liters {
+  font-family: var(--font-display); font-weight: 500; line-height: 1.05;
+  font-size: 72px; /* where container units are unknown */
+  font-size: clamp(48px, 27.5cqi, 176px); letter-spacing: -.03em; font-variant-numeric: tabular-nums;
+}
+/* The unlit segments: every place the display has, behind the digits that are lit */
+.readout::before { content: "88.888"; grid-area: 1 / 1; justify-self: end; color: var(--visor-ghost); }
+.volume { grid-area: 1 / 1; justify-self: end; margin: 0; }
+#liters { display: block; color: var(--visor-ink); text-shadow: 0 0 .22em var(--visor-glow); }
+.error {
+  grid-area: 1 / 1; align-self: center; justify-self: start; max-width: 100%; margin: 0;
+  color: var(--visor-danger); font-size: 17px; font-weight: 700; line-height: 1.3;
+}
+.visor-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 4px 2px;
+}
+.visor-unit {
+  margin-left: auto; font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--visor-muted);
+}
+.copy {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 12px;
+  border: 1px solid var(--visor-line); border-radius: 10px; background: var(--visor);
+  color: var(--visor-ink); font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.copy:active { background: var(--visor-line); }
+.copy svg, .share svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* The reading: a small display of its own between two keys */
+.entry { display: grid; grid-template-columns: 60px minmax(0, 1fr) 60px; gap: 8px; }
+.step {
+  min-height: 64px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface);
+  box-shadow: 0 3px 0 var(--key-edge);
+  font-size: 28px; font-weight: 600; line-height: 1; cursor: pointer; touch-action: manipulation;
+}
+.step:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--key-edge); }
+.field {
+  display: flex; align-items: baseline; gap: 6px; min-width: 0; padding: 0 14px;
+  border-radius: 12px; background: var(--visor);
+  box-shadow: inset 0 2px 8px var(--visor-shade), inset 0 0 0 1px var(--visor-line);
+}
+.field:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
+#reading {
+  flex: 1; min-width: 0; width: 100%; padding: 0; border: 0; outline: none; background: transparent;
+  color: var(--visor-ink); caret-color: var(--gold);
+  font: 500 42px/64px var(--font-display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; text-align: right;
+  text-shadow: 0 0 .22em var(--visor-glow);
+}
+#reading[aria-invalid="true"] { color: var(--visor-danger); text-shadow: none; }
+.unit { font-size: 18px; font-weight: 600; color: var(--visor-muted); }
+.hint { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+
+/* Products: the pump's product keys, the chosen one lit */
+.products { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.product {
+  position: relative; display: grid; gap: 1px; align-content: center; min-width: 0; min-height: 66px;
+  padding: 10px 12px 11px 13px; text-align: left; cursor: pointer;
+  border: 1px solid var(--line); border-radius: 12px; background: var(--surface);
+  box-shadow: 0 3px 0 var(--key-edge);
+}
+.product::after {
+  content: ""; position: absolute; top: 13px; right: 12px; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--lamp-off);
+}
+.product .name { padding-right: 16px; font-size: 17px; font-weight: 700; line-height: 1.2; }
+.product .spec {
+  font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.product:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--key-edge); }
+.product[aria-checked="true"] {
+  background: var(--key-on); border-color: var(--key-on); color: var(--on-key-on); box-shadow: 0 3px 0 var(--gold-deep);
+}
+.product[aria-checked="true"] .spec { color: var(--on-key-on-muted); }
+.product[aria-checked="true"]::after { background: var(--lamp-on); box-shadow: 0 0 10px 2px var(--lamp-glow); }
+
+/* The tank, and what the sheet says about the reading */
+.tank, .facts { border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.tank { display: grid; place-items: center; padding: 6px; }
+.gauge { display: block; width: 100%; max-width: 300px; height: auto; aspect-ratio: 1; overflow: visible; }
+.gauge-neck { fill: var(--tank-empty); stroke: var(--tank-shell); stroke-width: 2.5; }
+.gauge-empty { fill: var(--tank-empty); }
+.gauge-fuel { fill: url(#fuelShade); transition: y .25s ease, height .25s ease; }
+.fuel-top { stop-color: var(--fuel-top); }
+.fuel-mid { stop-color: var(--fuel); }
+.fuel-low { stop-color: var(--fuel-low); }
+.gauge-shell { fill: none; stroke: var(--tank-shell); stroke-width: 3; }
+.gauge-rod { fill: var(--rod); }
+.gauge-tick { stroke: var(--rod-mark); stroke-width: 1.1; }
+.gauge-tick-minor { stroke: var(--rod-mark); stroke-width: .6; }
+.gauge-mark {
+  fill: var(--mark); font-family: var(--font); font-size: 8.5px; font-weight: 700; font-variant-numeric: tabular-nums;
+  paint-order: stroke; stroke: var(--mark-halo); stroke-width: 2.4px; stroke-linejoin: round;
+}
+.gauge-level { stroke: var(--level); stroke-width: 1.4; stroke-dasharray: 3 2; }
+.gauge-pointer { fill: var(--level); }
+
+.facts { display: grid; align-content: center; gap: 9px; margin: 0; padding: 12px; }
+.facts div { display: grid; }
+.facts dt { font-size: 12px; line-height: 1.3; color: var(--muted); }
+.facts dd { margin: 0; font-size: 15px; line-height: 1.3; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.share {
+  display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; padding: 0 16px;
+  border: 0; border-radius: 14px; color: var(--on-gold); cursor: pointer;
+  background: linear-gradient(180deg, var(--gold-light), var(--gold) 55%, var(--gold-deep));
+  box-shadow: inset 0 1px 0 var(--gold-sheen), 0 3px 0 var(--gold-deep);
+  font-size: 17px; font-weight: 700;
+}
+.share:active { transform: translateY(2px); box-shadow: inset 0 1px 0 var(--gold-sheen), 0 1px 0 var(--gold-deep); }
+
+/* The full sheet */
+.sheet { --sheet-open: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+.sheet summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px;
+  padding: 0 18px; cursor: pointer; font-weight: 700; list-style: none;
+}
+.sheet summary::-webkit-details-marker { display: none; }
+.sheet summary::after {
+  content: ""; width: 9px; height: 9px; flex: none; margin-top: -4px;
+  border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg);
+}
+.sheet[open] summary::after { margin-top: 4px; transform: rotate(225deg); }
+.sheet-hint { margin: 0 18px 10px; font-size: 13px; color: var(--muted); }
+.scroller { overflow-x: auto; margin: 0 10px 14px; }
+table {
+  width: 100%; min-width: 620px; border-collapse: separate; border-spacing: 0;
+  border-left: 1px solid var(--line); font-size: 13px; font-variant-numeric: tabular-nums;
+}
+th {
+  padding: 6px 4px; background: var(--band); color: var(--on-band); font-size: 13px; font-weight: 700;
+  border-right: 1px solid var(--surface); border-bottom: 1px solid var(--surface);
+}
+th.on { background: var(--gold); color: var(--on-gold); }
+tbody th, thead th:first-child { position: sticky; left: 0; z-index: 1; }
+td { padding: 0; text-align: center; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+td button {
+  width: 100%; min-height: 44px; padding: 0 2px; border: 0; background: transparent; font-size: 13px;
+  font-variant-numeric: tabular-nums; cursor: pointer;
+}
+td button:hover { background: var(--fuel-soft); }
+td.on button { background: var(--gold); color: var(--on-gold); font-weight: 700; }
+
+.notes { display: grid; align-content: start; gap: 6px; font-size: 13px; color: var(--muted); }
+.notes p { margin: 0; }
+
+.offscreen { position: fixed; top: 0; left: -9999px; opacity: 0; }
+
+.toast {
+  position: fixed; left: 50%; transform: translateX(-50%); z-index: 10;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  max-width: calc(100% - 32px); padding: 10px 16px; border-radius: 999px;
+  background: var(--toast); color: var(--on-toast); font-size: 14px; font-weight: 600;
+}
+
+@media (max-width: 359px) {
+  .tank, .facts { grid-column: 1 / -1; }
+  .gauge { max-width: 180px; }
+}
+
+/* From the tablet up: two columns, the controls beside the readouts, the sheet open below. */
+@media (min-width: 760px) {
+  .band-inner {
+    max-width: 1480px; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 24px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 16px); padding-bottom: 16px;
+    padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px));
+  }
+  .wordmark { height: 34px; }
+  .title { padding-left: 24px; border-left: 1px solid var(--band-line); }
+
+  .board {
+    max-width: 1480px; gap: 24px; padding-top: 24px;
+    padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px));
+    grid-template-columns: minmax(250px, 300px) minmax(0, 1fr);
+    grid-template-areas: "controls readouts" "sheet sheet" "notes notes";
+  }
+  .board > * { grid-column: auto; }
+  .controls, .readouts { display: grid; align-content: start; gap: 16px; }
+  .controls { grid-area: controls; gap: 22px; }
+  .readouts { grid-area: readouts; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+  .controls > *, .readouts > * { order: 0; }
+  .sheet { grid-area: sheet; --sheet-open: 1; }
+  .notes { grid-area: notes; }
+
+  .products { grid-template-columns: 1fr; }
+  .product { min-height: 60px; }
+
+  .facts { padding: 14px 18px; }
+  .facts dd { font-size: 16px; }
+  .share { grid-column: 1 / -1; }
+
+  .sheet summary { font-size: 17px; min-height: 56px; }
+  .scroller { margin: 0 14px 16px; }
+  table { font-size: 14px; }
+  td button { font-size: 14px; }
+  .which { font-size: 13px; }
+  .visor-unit { font-size: 13px; }
+}
+
+/* Desktop: the tank beside the display, the facts and the share key below them. */
+@media (min-width: 1180px) and (max-width: 1679.98px) {
+  .board { grid-template-columns: 340px minmax(0, 1fr); }
+  .readouts {
+    grid-template-columns: minmax(0, 1fr) clamp(250px, 22vw, 320px);
+    grid-template-areas: "visor tank" "facts share";
+  }
+  .visor { grid-area: visor; }
+  .tank { grid-area: tank; padding: 16px; }
+  .gauge-mark { font-size: 6.5px; }
+  .facts { grid-area: facts; grid-template-columns: 1fr 1fr; gap: 14px 24px; padding: 16px 22px; }
+  .facts dt { font-size: 13px; }
+  .facts dd { font-size: 18px; }
+  .share { grid-area: share; flex-direction: column; gap: 6px; border-radius: 16px; }
+  .share svg { width: 24px; height: 24px; }
+}
+
+/* Very wide: the sheet is a third column, beside the readouts. */
+@media (min-width: 1680px) {
+  .board {
+    max-width: 1920px;
+    grid-template-columns: 340px minmax(0, 1fr) minmax(660px, 740px);
+    grid-template-areas: "controls readouts sheet" "notes readouts sheet";
+    grid-template-rows: auto 1fr;
+  }
+  .band-inner { max-width: 1920px; }
+  .sheet { align-self: start; }
+  .gauge-mark { font-size: 7px; }
+  td button { min-height: 32px; font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gauge-fuel { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="band">
+  <div class="band-inner">
+    <div class="brand">
+      <svg xmlns="http://www.w3.org/2000/svg" id="wordmark" class="wordmark" role="img" aria-label="AZP" viewBox="120.66 346.96 778.67 316.04" width="78.8" height="32"><defs>
+    <style>
+      .st0 {
+        fill: url(#linear-gradient9);
+      }
+
+      .st1 {
+        fill: url(#linear-gradient8);
+      }
+
+      .st2 {
+        fill: #9a9a9a;
+      }
+
+      .st3 {
+        fill: url(#linear-gradient10);
+      }
+
+      .st4 {
+        fill: #8c6c1e;
+      }
+
+      .st5, .st6 {
+        fill: #f4f4f4;
+      }
+
+      .st6 {
+        stroke: #f4f4f4;
+        stroke-linejoin: round;
+        stroke-width: 18px;
+      }
+
+      .st7 {
+        fill: url(#linear-gradient6);
+      }
+
+      .st7, .st8, .st9, .st10, .st11, .st12, .st13 {
+        stroke-width: 4px;
+      }
+
+      .st7, .st8, .st9, .st10, .st11, .st12, .st13, .st14 {
+        stroke: #f6e296;
+      }
+
+      .st8 {
+        fill: url(#linear-gradient4);
+      }
+
+      .st9 {
+        fill: url(#linear-gradient3);
+      }
+
+      .st10 {
+        fill: url(#linear-gradient5);
+      }
+
+      .st11 {
+        fill: url(#linear-gradient1);
+      }
+
+      .st12 {
+        fill: url(#linear-gradient2);
+      }
+
+      .st13, .st15 {
+        fill: #141414;
+      }
+
+      .st16 {
+        fill: #fff;
+        font-family: HelveticaNeue-Medium, 'Helvetica Neue';
+        font-size: 44px;
+        font-weight: 500;
+        isolation: isolate;
+      }
+
+      .st14 {
+        fill: url(#linear-gradient);
+        stroke-width: 5px;
+      }
+
+      .st17 {
+        fill: url(#linear-gradient7);
+        fill-rule: evenodd;
+      }
+
+      .st18 {
+        fill: url(#linear-gradient18);
+      }
+
+      .st18, .st19, .st20, .st21, .st22, .st23, .st24, .st25 {
+        stroke: #a5832a;
+        stroke-width: 2px;
+      }
+
+      .st19 {
+        fill: url(#linear-gradient11);
+      }
+
+      .st20 {
+        fill: url(#linear-gradient16);
+      }
+
+      .st21 {
+        fill: url(#linear-gradient17);
+      }
+
+      .st22 {
+        fill: url(#linear-gradient15);
+      }
+
+      .st23 {
+        fill: url(#linear-gradient12);
+      }
+
+      .st24 {
+        fill: url(#linear-gradient13);
+      }
+
+      .st25 {
+        fill: url(#linear-gradient14);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="510" y1="1074" x2="510" y2="714" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0d888" />
+      <stop offset="1" stop-color="#b8932f" />
+    </linearGradient>
+    <linearGradient id="linear-gradient1" x1="510" y1="1074" x2="510" y2="714" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0d888" />
+      <stop offset="1" stop-color="#b8932f" />
+    </linearGradient>
+    <linearGradient id="linear-gradient2" x1="474.02" y1="1074" x2="474.02" y2="714" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0d888" />
+      <stop offset="1" stop-color="#b8932f" />
+    </linearGradient>
+    <linearGradient id="linear-gradient3" x1="545.98" y1="1074" x2="545.98" y2="714" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0d888" />
+      <stop offset="1" stop-color="#b8932f" />
+    </linearGradient>
+    <linearGradient id="linear-gradient4" x1="486" y1="1074" x2="486" y2="714" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0d888" />
+      <stop offset="1" stop-color="#b8932f" />
+    </linearGradient>
+    <linearGradient id="linear-gradient5" x1="534" y1="1074" x2="534" y2="714" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0d888" />
+      <stop offset="1" stop-color="#b8932f" />
+    </linearGradient>
+    <linearGradient id="linear-gradient6" x1="510" y1="1074" x2="510" y2="714" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0d888" />
+      <stop offset="1" stop-color="#b8932f" />
+    </linearGradient>
+    <linearGradient id="linear-gradient7" x1="257.21" y1="714" x2="257.21" y2="424" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#efe3ba" />
+      <stop offset=".45" stop-color="#fff" />
+      <stop offset="1" stop-color="#f4f4f2" />
+    </linearGradient>
+    <linearGradient id="linear-gradient8" x1="508.36" y1="714" x2="508.36" y2="424" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#efe3ba" />
+      <stop offset=".45" stop-color="#fff" />
+      <stop offset="1" stop-color="#f4f4f2" />
+    </linearGradient>
+    <linearGradient id="linear-gradient9" x1="733.61" y1="714" x2="733.61" y2="424" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#efe3ba" />
+      <stop offset=".45" stop-color="#fff" />
+      <stop offset="1" stop-color="#f4f4f2" />
+    </linearGradient>
+    <linearGradient id="linear-gradient10" x1="828.8" y1="714" x2="828.8" y2="424" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#efe3ba" />
+      <stop offset=".45" stop-color="#fff" />
+      <stop offset="1" stop-color="#f4f4f2" />
+    </linearGradient>
+    <linearGradient id="linear-gradient11" x1="128" y1="334" x2="128" y2="14" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f3dc8e" />
+      <stop offset=".55" stop-color="#d4b04e" />
+      <stop offset="1" stop-color="#a9852a" />
+    </linearGradient>
+    <linearGradient id="linear-gradient12" x1="270" y1="334" x2="270" y2="14" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f3dc8e" />
+      <stop offset=".55" stop-color="#d4b04e" />
+      <stop offset="1" stop-color="#a9852a" />
+    </linearGradient>
+    <linearGradient id="linear-gradient13" x1="366" y1="334" x2="366" y2="14" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f3dc8e" />
+      <stop offset=".55" stop-color="#d4b04e" />
+      <stop offset="1" stop-color="#a9852a" />
+    </linearGradient>
+    <linearGradient id="linear-gradient14" x1="892" y1="334" x2="892" y2="14" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f3dc8e" />
+      <stop offset=".55" stop-color="#d4b04e" />
+      <stop offset="1" stop-color="#a9852a" />
+    </linearGradient>
+    <linearGradient id="linear-gradient15" x1="750" y1="334" x2="750" y2="14" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f3dc8e" />
+      <stop offset=".55" stop-color="#d4b04e" />
+      <stop offset="1" stop-color="#a9852a" />
+    </linearGradient>
+    <linearGradient id="linear-gradient16" x1="654" y1="334" x2="654" y2="14" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f3dc8e" />
+      <stop offset=".55" stop-color="#d4b04e" />
+      <stop offset="1" stop-color="#a9852a" />
+    </linearGradient>
+    <linearGradient id="linear-gradient17" x1="451" y1="334" x2="451" y2="14" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f3dc8e" />
+      <stop offset=".55" stop-color="#d4b04e" />
+      <stop offset="1" stop-color="#a9852a" />
+    </linearGradient>
+    <linearGradient id="linear-gradient18" x1="569" y1="334" x2="569" y2="14" gradientTransform="translate(0 1084) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e2c56e" />
+      <stop offset="1" stop-color="#9a7924" />
+    </linearGradient>
+  </defs>
+  <g id="azp-letters">
+    <g>
+      <path class="st17" d="M257.66,367.8h12.9l97.7,272.2c1.4,5,4.7,8.4,10.3,8.4h11.2v10.6h-126.8v-10.6h23.2c5.4,0,7.9-3.4,8.4-8.4l-22.9-63.9h-75.3l-24.7,63.9c-.8,5,2,8.4,8.7,8.4h23.8v10.6h-79.5v-10.6h12c7.9,0,13.5-2.8,15.7-8.4L257.66,367.8ZM235.56,475l30.5,85.7h-63.6L235.56,475Z" />
+      <path class="st1" d="M412.46,379h205.8l-137.2,269.4h49c36.4,0,61.6-28.6,63.9-84.6.5-4.2,2.8-7.3,7.5-7.3h12.6c2.8,0,4.2,2.3,4.2,5.9v96.6h-219.8l138.3-271.6h-59.9c-28,2.8-50.4,22.4-58.2,50.4-1.7,3.4-6.2,2.8-6.2-1.4V379Z" />
+      <path class="st0" d="M684.96,378.4l73.6-7v266.6c0,7,3.9,10.4,12.3,10.4h31.9v10.6h-138.3v-10.6h8.4c8.4,0,12.1-3.4,12.1-10.4V378.4Z" />
+      <path class="st3" d="M762.26,351c33.6-.6,65.62,5.66,90.82,22.46,25.2,16.8,43.58,50.34,42.18,83.94,0,53.2-27.4,93-60.2,93s-58.7-25.18-58.7-57.38c.83-36.04,34.01-38.64,33.29-91.72-.19-13.72-9.02-27.09-18.82-36.69C783.83,357.75,774.74,352.82,762.26,351Z" />
+    </g>
+  </g>
+  </svg>
+      <span class="brand-tag" id="brandTag">Postos de<br>combustíveis</span>
+    </div>
+    <div class="title">
+      <h1>Medição de tanques</h1>
+      <p class="band-sub">Leitura da régua em litros, pela tabela TRN</p>
+    </div>
+  </div>
+</header>
+
+<!-- One board, laid out like the face of a pump: the controls (products, reading) and the
+     readouts (display, tank, facts, share). On the phone the display comes first, so the liters
+     stay above the keyboard while the reading is typed; from the tablet up, two columns. -->
+<main class="board">
+  <div class="controls">
+    <section class="nozzles">
+      <h2 class="label" id="productsLabel">Produto</h2>
+      <div class="products" id="products" role="radiogroup" aria-labelledby="productsLabel"></div>
+    </section>
+
+    <section class="reading">
+      <label class="label" for="reading">Leitura da régua</label>
+      <div class="entry">
+        <button class="step" id="minus" type="button" aria-label="Menos 1 cm">−</button>
+        <div class="field">
+          <input id="reading" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" value="156" aria-describedby="readingHint">
+          <span class="unit">cm</span>
+        </div>
+        <button class="step" id="plus" type="button" aria-label="Mais 1 cm">+</button>
+      </div>
+      <p class="hint" id="readingHint">De 0 a 254 cm. Com vírgula, como 156,5, o volume é interpolado entre duas linhas da tabela.</p>
+    </section>
+  </div>
+
+  <div class="readouts">
+    <!-- The display: the liters as a pump shows them, the unlit segments behind the lit ones. -->
+    <section class="visor">
+      <div class="visor-glass" aria-live="polite">
+        <p class="which" id="which"></p>
+        <div class="readout">
+          <p class="volume" id="volume"><b id="liters"></b><span class="sr"> litros</span></p>
+          <p class="error" id="error" hidden></p>
+        </div>
+      </div>
+      <div class="visor-foot">
+        <button class="copy" id="copy" type="button" aria-label="Copiar a litragem">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"></rect><path d="M13 4.5V4a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 4v7.5A1.5 1.5 0 0 0 4 13h.5"></path></svg>
+          <span>Copiar litros</span>
+        </button>
+        <span class="visor-unit" aria-hidden="true">Litros</span>
+      </div>
+    </section>
+
+    <!-- The tank in cross-section, the dipstick down its middle as it goes in through the manhole. -->
+    <section class="tank">
+      <svg class="gauge" id="gauge" viewBox="0 0 120 120" role="img">
+        <defs>
+          <clipPath id="inside"><circle cx="60" cy="60" r="52"></circle></clipPath>
+          <linearGradient id="fuelShade" x1="0" y1="0" x2="0" y2="1">
+            <stop class="fuel-top" offset="0"></stop>
+            <stop class="fuel-mid" offset=".16"></stop>
+            <stop class="fuel-low" offset="1"></stop>
+          </linearGradient>
+          <marker id="pointer" viewBox="0 0 6 6" refX="0" refY="3" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto">
+            <path class="gauge-pointer" d="M0 3 6 0v6z"></path>
+          </marker>
+        </defs>
+        <rect class="gauge-neck" x="49" y="3" width="22" height="9" rx="1"></rect>
+        <circle class="gauge-empty" cx="60" cy="60" r="52"></circle>
+        <rect class="gauge-fuel" id="fuel" x="0" y="112" width="120" height="0" clip-path="url(#inside)"></rect>
+        <circle class="gauge-shell" cx="60" cy="60" r="52"></circle>
+        <rect class="gauge-rod" x="54.5" y="0.5" width="11" height="111.5" rx="1"></rect>
+        <line class="gauge-level" id="level" x1="3" x2="112" y1="112" y2="112" marker-end="url(#pointer)"></line>
+        <g id="ticks"></g>
+      </svg>
+    </section>
+
+    <dl class="facts" id="facts">
+      <div><dt>Na folha</dt><dd id="factSheet"></dd></div>
+      <div><dt>Tolerância ±0,8%</dt><dd id="factTolerance"></dd></div>
+      <div><dt>Ocupação</dt><dd id="factFill"></dd></div>
+      <div><dt>Cabe até a nominal</dt><dd id="factRoom"></dd></div>
+    </dl>
+
+    <button class="share" id="share" type="button">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 12.5V2.5M6.5 6 10 2.5 13.5 6"></path><path d="M6 9H5a1.5 1.5 0 0 0-1.5 1.5v6A1.5 1.5 0 0 0 5 18h10a1.5 1.5 0 0 0 1.5-1.5v-6A1.5 1.5 0 0 0 15 9h-1"></path></svg>
+      <span>Compartilhar imagem</span>
+    </button>
+  </div>
+
+  <details class="sheet" id="sheet">
+    <summary id="sheetTitle"></summary>
+    <p class="sheet-hint">As linhas são as dezenas de centímetros, as colunas as unidades. Toque num valor para usá-lo.</p>
+    <div class="scroller"><table id="table"></table></div>
+  </details>
+
+  <footer class="notes">
+    <p>Os volumes consideram o tanque nivelado. A folha admite variação de 0,8% para mais ou para menos.</p>
+    <p>Tabelas 30SC/30JC (15.000 L por compartimento) e 30S/30J (30.000 L), transcritas e conferidas em 15/11/2026: os 510 valores batem com o volume de um cilindro horizontal de 2,549 m de diâmetro.</p>
+  </footer>
+</main>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+const TABLES = {"30SC":{"model":"30SC / 30JC","nominal":15000,"kind":"compartimento","diameter_m":2.549,"liters":[0,7,18,34,52,72,95,120,146,174,204,235,267,301,336,372,409,448,487,528,569,612,655,699,744,790,837,885,933,983,1032,1083,1135,1187,1239,1293,1347,1401,1457,1513,1569,1626,1684,1742,1801,1860,1920,1980,2041,2102,2164,2226,2289,2352,2416,2480,2544,2609,2674,2740,2806,2872,2939,3006,3074,3142,3210,3278,3347,3416,3486,3556,3626,3696,3767,3838,3909,3981,4053,4125,4197,4270,4342,4415,4489,4562,4636,4710,4784,4858,4933,5007,5082,5157,5233,5308,5384,5459,5535,5611,5687,5764,5840,5917,5993,6070,6147,6224,6301,6378,6456,6533,6610,6688,6765,6843,6921,6999,7076,7154,7232,7310,7388,7466,7544,7622,7700,7778,7856,7934,8012,8090,8168,8246,8324,8402,8480,8558,8636,8714,8791,8869,8947,9024,9102,9179,9256,9333,9410,9487,9564,9641,9718,9794,9871,9947,10023,10099,10175,10251,10326,10402,10477,10552,10627,10701,10776,10850,10924,10998,11072,11145,11219,11292,11364,11437,11509,11581,11653,11725,11796,11867,11937,12008,12078,12148,12217,12286,12355,12424,12492,12560,12627,12694,12761,12828,12894,12959,13024,13089,13154,13218,13281,13344,13407,13469,13531,13592,13653,13713,13773,13832,13890,13949,14006,14063,14120,14175,14231,14285,14339,14393,14445,14497,14549,14599,14649,14698,14747,14794,14841,14887,14932,14976,15019,15062,15103,15144,15183,15221,15258,15294,15329,15363,15395,15426,15455,15483,15510,15534,15556,15577,15595,15610,15621]},"30S":{"model":"30S / 30J","nominal":30000,"kind":"tanque pleno","diameter_m":2.549,"liters":[0,13,37,68,104,145,191,240,293,349,408,470,535,603,673,745,820,897,976,1058,1141,1226,1313,1401,1492,1584,1678,1774,1871,1969,2069,2171,2274,2378,2484,2591,2699,2809,2920,3032,3145,3259,3375,3491,3609,3728,3848,3969,4090,4213,4337,4462,4587,4714,4841,4970,5099,5229,5359,5491,5623,5757,5890,6025,6160,6296,6433,6570,6709,6847,6987,7127,7267,7408,7550,7692,7835,7979,8122,8267,8412,8557,8703,8850,8996,9144,9291,9440,9588,9737,9886,10036,10186,10337,10488,10639,10790,10942,11094,11246,11399,11552,11705,11858,12012,12166,12320,12474,12629,12784,12938,13094,13249,13404,13560,13715,13871,14027,14183,14339,14495,14651,14807,14964,15120,15277,15433,15589,15746,15902,16059,16215,16372,16528,16684,16840,16996,17152,17308,17464,17620,17776,17931,18086,18242,18397,18552,18706,18861,19015,19169,19323,19477,19630,19783,19936,20089,20241,20393,20545,20696,20847,20998,21148,21298,21448,21597,21746,21895,22043,22191,22338,22485,22631,22777,22922,23067,23212,23356,23499,23642,23784,23926,24067,24207,24347,24486,24625,24763,24900,25037,25173,25308,25443,25577,25710,25842,25973,26104,26234,26363,26491,26618,26745,26870,26995,27119,27241,27363,27484,27604,27722,27840,27956,28072,28186,28299,28411,28522,28631,28740,28846,28952,29056,29159,29260,29360,29459,29556,29651,29745,29837,29927,30016,30103,30187,30270,30351,30430,30507,30582,30654,30724,30791,30856,30918,30976,31032,31085,31134,31179,31220,31255,31286,31309]}};
+const PRODUCTS = [{"id":"gasolina","name":"Gasolina","table":"30SC"},{"id":"etanol","name":"Etanol","table":"30SC"},{"id":"s10","name":"Diesel S-10","table":"30SC"},{"id":"s500","name":"Diesel S-500","table":"30S"}];
+// The summary of one measurement, drawn as a 1080 × 1350 picture to share.
+// Colours and font are read from the page's roles, so the picture follows page.css;
+// AZP's letters are painted from the page's own inline SVG (#wordmark), so they have one source.
+const SummaryImage = (() => {
+  const W = 1080;
+  const H = 1350;
+  const X = 104; // left edge of the text on the display's glass
+
+  const role = (name) => getComputedStyle(document.documentElement).getPropertyValue(`--${name}`).trim();
+
+  function roundRect(g, x, y, w, h, r, fill) {
+    g.beginPath();
+    g.moveTo(x + r, y);
+    g.arcTo(x + w, y, x + w, y + h, r);
+    g.arcTo(x + w, y + h, x, y + h, r);
+    g.arcTo(x, y + h, x, y, r);
+    g.arcTo(x, y, x + w, y, r);
+    g.closePath();
+    g.fillStyle = fill;
+    g.fill();
+  }
+
+  function spaced(g, px) {
+    if ("letterSpacing" in g) g.letterSpacing = `${px}px`;
+  }
+
+  // Paints an inline SVG of the page on the canvas, as the browser shows it: each shape's fill,
+  // stroke and fill rule are read from its computed style, so classes of the SVG's own <style>
+  // (Illustrator's export) count as much as attributes; transforms and gradientTransform are
+  // applied as matrices. Path2D takes the paths' own data, so nothing is redrawn by hand.
+  // Shapes read: paths and circles. Gradients read: linear, in user space.
+  function paintSvg(g, svg, x, y, height) {
+    const vb = svg.viewBox.baseVal;
+    const scale = height / vb.height;
+    g.save();
+    g.translate(x, y);
+    g.scale(scale, scale);
+    g.translate(-vb.x, -vb.y);
+
+    const gradients = {};
+    const stopsOf = (lg) => {
+      const own = lg.querySelectorAll("stop");
+      if (own.length) return own;
+      const href = lg.getAttribute("href") || lg.getAttribute("xlink:href");
+      const base = href && svg.querySelector(href);
+      return base ? stopsOf(base) : [];
+    };
+    svg.querySelectorAll("linearGradient").forEach((lg) => {
+      const m = lg.gradientTransform.baseVal.consolidate()?.matrix ?? new DOMMatrix();
+      const at = (px, py) => new DOMPoint(px, py).matrixTransform(m);
+      const a = at(lg.x1.baseVal.value, lg.y1.baseVal.value);
+      const b = at(lg.x2.baseVal.value, lg.y2.baseVal.value);
+      const gr = g.createLinearGradient(a.x, a.y, b.x, b.y);
+      stopsOf(lg).forEach((st) => {
+        const cs = getComputedStyle(st);
+        gr.addColorStop(st.offset.baseVal, cs.stopColor || st.getAttribute("stop-color"));
+      });
+      gradients[lg.id] = gr;
+    });
+    const paint = (v) => {
+      if (!v || v === "none") return null;
+      const m = v.match(/url\(["']?#([^"')]+)["']?\)/);
+      return m ? gradients[m[1]] || null : v;
+    };
+
+    const walk = (node) => {
+      for (const el of node.children) {
+        const tag = el.tagName.toLowerCase();
+        if (tag === "defs" || tag === "title" || tag === "style") continue;
+        const cs = getComputedStyle(el);
+        if (cs.display === "none" || cs.visibility === "hidden") continue;
+        g.save();
+        const t = el.transform?.baseVal.consolidate()?.matrix;
+        if (t) g.transform(t.a, t.b, t.c, t.d, t.e, t.f);
+        if (tag === "g") {
+          walk(el);
+        } else if (tag === "path" || tag === "circle") {
+          let shape;
+          if (tag === "path") {
+            shape = new Path2D(el.getAttribute("d"));
+          } else {
+            shape = new Path2D();
+            shape.arc(el.cx.baseVal.value, el.cy.baseVal.value, el.r.baseVal.value, 0, Math.PI * 2);
+          }
+          const fill = paint(cs.fill);
+          const stroke = paint(cs.stroke);
+          if (fill) {
+            g.fillStyle = fill;
+            g.fill(shape, cs.fillRule === "evenodd" ? "evenodd" : "nonzero");
+          }
+          if (stroke) {
+            g.strokeStyle = stroke;
+            g.lineWidth = parseFloat(cs.strokeWidth) || 1;
+            g.lineJoin = cs.strokeLinejoin || "miter";
+            g.stroke(shape);
+          }
+        }
+        g.restore();
+      }
+    };
+    walk(svg);
+    g.restore();
+  }
+
+  // The tank as the page draws it (#gauge): the same geometry, in the SVG's own units of 0 to 120,
+  // scaled so its circle has radius r around (cx, cy).
+  function gauge(g, cx, cy, r, ratio, depth, c, face) {
+    const k = r / 52;
+    const px = (x) => cx + (x - 60) * k;
+    const py = (y) => cy + (y - 60) * k;
+    const level = 112 - ratio * 104;
+    const circle = () => { g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); };
+
+    // the manhole's neck, then the shell's inside
+    g.fillStyle = c.tankEmpty;
+    g.strokeStyle = c.tankShell;
+    g.lineWidth = 2.5 * k;
+    g.beginPath();
+    g.rect(px(49), py(3), 22 * k, 9 * k);
+    g.fill();
+    g.stroke();
+    circle();
+    g.fill();
+
+    // the fuel, lighter at its surface
+    g.save();
+    circle();
+    g.clip();
+    const shade = g.createLinearGradient(0, py(level), 0, py(112));
+    shade.addColorStop(0, c.fuelTop);
+    shade.addColorStop(0.16, c.fuel);
+    shade.addColorStop(1, c.fuelLow);
+    g.fillStyle = shade;
+    g.fillRect(px(0), py(level), 120 * k, py(112) - py(level));
+    g.restore();
+
+    g.lineWidth = 3 * k;
+    circle();
+    g.stroke();
+
+    // the dipstick, marked every 10 cm and numbered every 50
+    const at = (cm) => 112 - (cm / depth) * 104;
+    roundRect(g, px(54.5), py(0.5), 11 * k, 111.5 * k, k, c.rod);
+    // over it the level, dashed across the tank, with its pointer
+    g.strokeStyle = c.level;
+    g.lineWidth = 1.4 * k;
+    g.setLineDash([3 * k, 2 * k]);
+    g.beginPath();
+    g.moveTo(px(3), py(level));
+    g.lineTo(px(112), py(level));
+    g.stroke();
+    g.setLineDash([]);
+    g.fillStyle = c.level;
+    g.beginPath();
+    g.moveTo(px(112), py(level));
+    g.lineTo(px(118), py(level - 3));
+    g.lineTo(px(118), py(level + 3));
+    g.closePath();
+    g.fill();
+
+    g.strokeStyle = c.rodMark;
+    for (let cm = 10; cm < depth; cm += 10) {
+      const major = cm % 50 === 0;
+      g.lineWidth = (major ? 1.1 : 0.6) * k;
+      g.beginPath();
+      g.moveTo(px(55), py(at(cm)));
+      g.lineTo(px(major ? 65 : 60), py(at(cm)));
+      g.stroke();
+    }
+    g.font = `700 ${7.5 * k}px ${face}`;
+    g.textBaseline = "middle";
+    g.lineJoin = "round";
+    for (let cm = 50; cm < 250; cm += 50) { // 250 stands in the neck, as on the page
+      g.strokeStyle = c.markHalo;
+      g.lineWidth = 2.4 * k;
+      g.strokeText(String(cm), px(68), py(at(cm)));
+      g.fillStyle = c.mark;
+      g.fillText(String(cm), px(68), py(at(cm)));
+    }
+    g.textBaseline = "alphabetic";
+  }
+
+  // s: { product, spec, reading, liters, ratio, depth, facts: [[label, value] × 4], when, footer }
+  function draw(s) {
+    // Each colour is resolved by the browser, so the canvas gets plain rgb() whatever the role's syntax.
+    const probe = document.createElement("i");
+    document.body.append(probe);
+    const colour = (name) => {
+      probe.style.color = `var(--${name})`;
+      return getComputedStyle(probe).color;
+    };
+    const c = Object.fromEntries([
+      "page", "surface", "ink", "muted", "line", "band", "on-band", "on-band-muted",
+      "gold", "gold-light", "gold-deep", "fuel", "fuel-top", "fuel-low",
+      "visor", "visor-bezel", "visor-line", "visor-ink", "visor-glow", "visor-ghost", "visor-muted",
+      "tank-empty", "tank-shell", "rod", "rod-mark", "mark", "mark-halo", "level",
+    ].map((name) => [name.replace(/-(\w)/g, (_, ch) => ch.toUpperCase()), colour(name)]));
+    probe.remove();
+    const face = role("font");
+    const digits = role("font-display");
+    const font = (weight, size, family = face) => `${weight} ${size}px ${family}`;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = W;
+    canvas.height = H;
+    const g = canvas.getContext("2d");
+    g.textBaseline = "alphabetic";
+
+    g.fillStyle = c.page;
+    g.fillRect(0, 0, W, H);
+
+    // Band: AZP's black, its letters with the logo's line beside them, and a rule of its gold
+    g.fillStyle = c.band;
+    g.fillRect(0, 0, W, 264);
+    const rule = g.createLinearGradient(0, 0, W, 0);
+    rule.addColorStop(0, c.goldDeep);
+    rule.addColorStop(0.5, c.goldLight);
+    rule.addColorStop(1, c.goldDeep);
+    g.fillStyle = rule;
+    g.fillRect(0, 264, W, 10);
+
+    const wordmark = document.getElementById("wordmark");
+    const markH = 72;
+    paintSvg(g, wordmark, 64, 44, markH);
+    const tagX = 64 + Math.round((markH * wordmark.viewBox.baseVal.width) / wordmark.viewBox.baseVal.height) + 26;
+    g.fillStyle = c.gold;
+    g.fillRect(tagX, 52, 2, 60);
+    g.font = font(700, 22);
+    spaced(g, 4);
+    document.getElementById("brandTag").innerText.split("\n").forEach((line, k) => {
+      g.fillText(line.toUpperCase(), tagX + 22, 76 + k * 30);
+    });
+    spaced(g, 0);
+
+    g.fillStyle = c.onBand;
+    g.font = font(800, 56);
+    g.fillText("Medição de tanque", 64, 196);
+    g.fillStyle = c.onBandMuted;
+    g.font = font(500, 30);
+    g.fillText(s.when, 64, 238);
+
+    // The display: product and table on the glass, the liters lit over the unlit segments
+    roundRect(g, 40, 306, W - 80, 436, 36, c.visorBezel);
+    roundRect(g, 64, 330, W - 128, 330, 22, c.visorLine);
+    roundRect(g, 66, 332, W - 132, 326, 21, c.visor);
+    g.fillStyle = c.onBand;
+    g.font = font(800, 46);
+    g.fillText(s.product, X, 400);
+    g.fillStyle = c.visorMuted;
+    g.font = font(500, 26);
+    g.fillText(s.spec, X, 442);
+
+    const right = W - X;
+    g.textAlign = "right";
+    g.font = font(500, 196, digits);
+    spaced(g, -6);
+    g.fillStyle = c.visorGhost;
+    g.fillText("88.888", right, 622);
+    g.save();
+    g.shadowColor = c.visorGlow;
+    g.shadowBlur = 44;
+    g.fillStyle = c.visorInk;
+    g.fillText(s.liters, right, 622);
+    g.restore();
+    spaced(g, 0);
+    g.fillStyle = c.visorMuted;
+    g.font = font(700, 24);
+    spaced(g, 6);
+    g.fillText("LITROS", right + 6, 710);
+    spaced(g, 0);
+    g.textAlign = "left";
+
+    // The tank, and the reading with what the sheet says about it
+    const top = 774;
+    const tileH = 490;
+    roundRect(g, 40, top, 452, tileH, 32, c.line);
+    roundRect(g, 42, top + 2, 448, tileH - 4, 31, c.surface);
+    gauge(g, 266, top + tileH / 2 + 4, 182, s.ratio, s.depth, c, face);
+
+    const fx = 516;
+    roundRect(g, fx, top, W - 40 - fx, tileH, 32, c.line);
+    roundRect(g, fx + 2, top + 2, W - 44 - fx, tileH - 4, 31, c.surface);
+    const tx = fx + 40;
+    g.fillStyle = c.muted;
+    g.font = font(700, 22);
+    spaced(g, 3);
+    g.fillText("LEITURA DA RÉGUA", tx, top + 62);
+    spaced(g, 0);
+    g.fillStyle = c.ink;
+    g.font = font(800, 64);
+    g.fillText(s.reading, tx, top + 130);
+    g.fillStyle = c.line;
+    g.fillRect(tx, top + 160, W - 80 - tx, 2);
+    s.facts.forEach(([name, value], k) => {
+      const y = top + 212 + k * 70;
+      g.fillStyle = c.muted;
+      g.font = font(500, 24);
+      g.fillText(name, tx, y);
+      g.fillStyle = c.ink;
+      g.font = font(700, 32);
+      g.fillText(value, tx, y + 36);
+    });
+
+    g.fillStyle = c.muted;
+    g.font = font(500, 24);
+    g.fillText(s.footer, 64, 1316);
+
+    return canvas;
+  }
+
+  // Encoded at once, with no await, so a share called right after keeps the tap that asked for it.
+  function toFile(canvas, name) {
+    const data = atob(canvas.toDataURL("image/png").split(",")[1]);
+    const bytes = new Uint8Array(data.length);
+    for (let i = 0; i < data.length; i++) bytes[i] = data.charCodeAt(i);
+    return new File([bytes], name, { type: "image/png" });
+  }
+
+  return { draw, toFile };
+})();
+// Dipstick reading to liters, for the tanks of AZP.
+// TABLES and PRODUCTS are put in front of this file by the build, from Resources/.
+(() => {
+  const MAX_CM = 254;
+  const STORE = "azp-medicao-de-tanques:";
+
+  const nf = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 1 });
+  const fmt = (n) => nf.format(n);
+  const $ = (id) => document.getElementById(id);
+
+  const store = {
+    get(key) { try { return localStorage.getItem(STORE + key); } catch { return null; } },
+    set(key, value) { try { localStorage.setItem(STORE + key, value); } catch {} },
+  };
+
+  const byId = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
+  let productId = byId[store.get("product")] ? store.get("product") : PRODUCTS[0].id;
+  let current = null; // the last valid measurement, for copying and sharing
+  const tableOf = (id) => TABLES[byId[id].table];
+
+  const input = $("reading");
+  const saved = store.get("reading");
+  if (saved !== null) input.value = saved;
+
+  // Products
+  const productsEl = $("products");
+  for (const p of PRODUCTS) {
+    const t = TABLES[p.table];
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "product";
+    b.dataset.id = p.id;
+    b.setAttribute("role", "radio");
+    const name = document.createElement("span");
+    name.className = "name";
+    name.textContent = p.name;
+    const spec = document.createElement("span");
+    spec.className = "spec";
+    spec.textContent = `${fmt(t.nominal)} L · ${t.model.replace(/ /g, "")}`;
+    b.append(name, spec);
+    b.addEventListener("click", () => selectProduct(p.id));
+    productsEl.append(b);
+  }
+
+  // Gauge: the tank's cross-section, the dipstick marked every 50 cm
+  const levelY = (cm, t) => 112 - (cm / (t.diameter_m * 100)) * 104;
+  const ticks = $("ticks");
+  for (let cm = 50; cm <= 250; cm += 50) {
+    const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    l.setAttribute("class", "gauge-tick");
+    l.setAttribute("x1", 55);
+    l.setAttribute("x2", 65);
+    const y = levelY(cm, TABLES[PRODUCTS[0].table]);
+    l.setAttribute("y1", y);
+    l.setAttribute("y2", y);
+    ticks.append(l);
+  }
+  // The dipstick's finer marks, every 10 cm, and the number beside each 50 cm mark
+  for (let cm = 10; cm < MAX_CM; cm += 10) {
+    const y = levelY(cm, TABLES[PRODUCTS[0].table]);
+    if (cm % 50) {
+      const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      l.setAttribute("class", "gauge-tick-minor");
+      l.setAttribute("x1", 55);
+      l.setAttribute("x2", 60);
+      l.setAttribute("y1", y);
+      l.setAttribute("y2", y);
+      ticks.append(l);
+    } else if (cm < 250) { // the 250 cm mark stands in the manhole's neck, where a number has no room
+      const n = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      n.setAttribute("class", "gauge-mark");
+      n.setAttribute("x", 68);
+      n.setAttribute("y", y);
+      n.setAttribute("dominant-baseline", "central");
+      n.textContent = cm;
+      ticks.append(n);
+    }
+  }
+
+  function parse(raw) {
+    const s = raw.trim().replace(",", ".");
+    if (s === "") return { error: "Digite a leitura em centímetros." };
+    if (!/^\d+(\.\d+)?$/.test(s)) return { error: "Use só números, como 156 ou 156,5." };
+    const cm = parseFloat(s);
+    if (cm > MAX_CM) return { error: "A tabela vai de 0 a 254 cm." };
+    return { cm };
+  }
+
+  // Whole centimeters read the table; between two lines, a straight line joins them.
+  function volumeAt(liters, cm) {
+    const i = Math.floor(cm);
+    const f = cm - i;
+    return f === 0 ? liters[i] : liters[i] + (liters[i + 1] - liters[i]) * f;
+  }
+
+  function buildTable() {
+    const t = tableOf(productId);
+    $("sheetTitle").textContent = `Tabela completa · ${t.model}`;
+    let html = "<thead><tr><th>cm</th>";
+    for (let c = 0; c < 10; c++) html += `<th data-col="${c}">${c}</th>`;
+    html += "</tr></thead><tbody>";
+    for (let r = 0; r <= 250; r += 10) {
+      html += `<tr><th data-row="${r}">${r}</th>`;
+      for (let c = 0; c < 10; c++) {
+        const cm = r + c;
+        html += cm <= MAX_CM
+          ? `<td data-cm="${cm}"><button type="button" data-cm="${cm}">${fmt(t.liters[cm])}</button></td>`
+          : "<td></td>";
+      }
+      html += "</tr>";
+    }
+    $("table").innerHTML = html + "</tbody>";
+  }
+
+  function highlight(cm) {
+    const table = $("table");
+    table.querySelectorAll(".on").forEach((el) => el.classList.remove("on"));
+    if (cm === null) return;
+    const i = Math.floor(cm);
+    table.querySelector(`td[data-cm="${i}"]`)?.classList.add("on");
+    table.querySelector(`th[data-row="${i - (i % 10)}"]`)?.classList.add("on");
+    table.querySelector(`th[data-col="${i % 10}"]`)?.classList.add("on");
+  }
+
+  function setGauge(cm) {
+    const y = cm === null ? 112 : levelY(cm, tableOf(productId));
+    $("fuel").setAttribute("y", y);
+    $("fuel").setAttribute("height", 112 - y);
+    $("level").setAttribute("y1", y);
+    $("level").setAttribute("y2", y);
+    $("level").style.visibility = cm === null ? "hidden" : "visible";
+    $("gauge").setAttribute("aria-label", cm === null ? "Tanque" : `Tanque com ${fmt(cm)} cm de combustível`);
+  }
+
+  function update() {
+    const product = byId[productId];
+    const t = tableOf(productId);
+    const p = parse(input.value);
+    store.set("reading", input.value);
+    $("which").textContent = `${product.name} · ${t.model}`;
+
+    const ok = !p.error;
+    input.setAttribute("aria-invalid", String(!ok));
+    for (const id of ["volume", "copy", "facts", "share"]) $(id).hidden = !ok;
+    $("error").hidden = ok;
+    if (!ok) {
+      $("error").textContent = p.error;
+      current = null;
+      setGauge(null);
+      highlight(null);
+      return;
+    }
+
+    const cm = p.cm;
+    const vol = volumeAt(t.liters, cm);
+    const liters = Math.round(vol);
+    const room = t.nominal - liters;
+    const facts = [
+      ["Na folha", Number.isInteger(cm)
+        ? `linha ${cm - (cm % 10)} · coluna ${cm % 10}`
+        : `entre ${Math.floor(cm)} e ${Math.floor(cm) + 1} cm`],
+      ["Tolerância ±0,8%", `${fmt(Math.round(vol * 0.992))} a ${fmt(Math.round(vol * 1.008))} L`],
+      ["Ocupação", `${Math.round((vol / t.nominal) * 100)}% de ${fmt(t.nominal)} L`],
+      ["Cabe até a nominal", room >= 0 ? `${fmt(room)} L` : `${fmt(-room)} L acima`],
+    ];
+
+    $("liters").textContent = fmt(liters);
+    ["factSheet", "factTolerance", "factFill", "factRoom"].forEach((id, k) => { $(id).textContent = facts[k][1]; });
+    current = { product, table: t, cm, liters, facts };
+    setGauge(cm);
+    highlight(cm);
+  }
+
+  function selectProduct(id) {
+    productId = id;
+    store.set("product", id);
+    productsEl.querySelectorAll(".product").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.id === id)));
+    buildTable();
+    update();
+  }
+
+  function step(delta) {
+    const p = parse(input.value);
+    const base = p.error ? 0 : Math.round(p.cm);
+    input.value = String(Math.min(MAX_CM, Math.max(0, base + delta)));
+    update();
+  }
+
+  // Toast
+  let toastTimer = null;
+  function toast(text) {
+    const el = $("toast");
+    el.textContent = text;
+    el.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.hidden = true; }, 2200);
+  }
+
+  // Copy: the liters as a plain number, which any field or sheet reads
+  function copyByHand(text) {
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.className = "offscreen";
+    document.body.append(area);
+    area.select();
+    let ok = false;
+    try { ok = document.execCommand("copy"); } catch {}
+    area.remove();
+    return ok;
+  }
+
+  $("copy").addEventListener("click", async () => {
+    if (!current) return;
+    const text = String(current.liters);
+    try {
+      await navigator.clipboard.writeText(text);
+      toast(`Copiado: ${text}`);
+    } catch {
+      toast(copyByHand(text) ? `Copiado: ${text}` : "Não foi possível copiar");
+    }
+  });
+
+  // Share: the summary as a picture, through the phone's own share sheet
+  const pad = (n) => String(n).padStart(2, "0");
+  function summary(m, now) {
+    const day = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
+    const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    const stamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+    return {
+      product: m.product.name,
+      spec: `${m.table.model} · ${m.table.kind} de ${fmt(m.table.nominal)} L`,
+      reading: `${fmt(m.cm)} cm`,
+      liters: fmt(m.liters),
+      ratio: m.cm / (m.table.diameter_m * 100),
+      depth: m.table.diameter_m * 100, // the tank's height in cm, for the dipstick's marks
+      facts: m.facts,
+      when: `${day} às ${time}`,
+      footer: `Tabela TRN ${m.table.model} · tanque nivelado · tolerância de 0,8%`,
+      fileName: `medicao-${m.product.id}-${stamp}.png`,
+    };
+  }
+
+  let lastUrl = null;
+  $("share").addEventListener("click", () => {
+    if (!current) return;
+    let file;
+    try {
+      const s = summary(current, new Date());
+      file = SummaryImage.toFile(SummaryImage.draw(s), s.fileName);
+    } catch {
+      toast("Não foi possível gerar a imagem");
+      return;
+    }
+    if (navigator.canShare?.({ files: [file] })) {
+      navigator.share({ files: [file], title: "Medição de tanque" }).catch((e) => {
+        if (e.name !== "AbortError") toast("Não foi possível compartilhar");
+      });
+      return;
+    }
+    if (lastUrl) URL.revokeObjectURL(lastUrl);
+    lastUrl = URL.createObjectURL(file);
+    const a = document.createElement("a");
+    a.href = lastUrl;
+    a.download = file.name;
+    document.body.append(a);
+    a.click();
+    a.remove();
+    toast("Baixando a imagem");
+  });
+
+  $("table").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-cm]");
+    if (!b) return;
+    input.value = b.dataset.cm;
+    update();
+    input.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  input.addEventListener("input", update);
+  input.addEventListener("focus", () => input.select());
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp") { e.preventDefault(); step(1); }
+    if (e.key === "ArrowDown") { e.preventDefault(); step(-1); }
+    if (e.key === "Enter") input.blur();
+  });
+  $("minus").addEventListener("click", () => step(-1));
+  $("plus").addEventListener("click", () => step(1));
+
+  // Where the board is wide the full table has room: it opens by itself, and stays as the person
+  // leaves it. page.css says where, with --sheet-open on the sheet, so the breakpoint is written once.
+  const sheet = $("sheet");
+  let sheetWide = false;
+  function layoutSheet() {
+    const wide = getComputedStyle(sheet).getPropertyValue("--sheet-open").trim() === "1";
+    if (wide && !sheetWide) sheet.open = true;
+    sheetWide = wide;
+  }
+  addEventListener("resize", layoutSheet);
+
+  selectProduct(productId);
+  // After the first measurement is drawn: reading the style earlier would start the gauge's
+  // transition from empty on every load.
+  layoutSheet();
+})();
+</script>
+</body>
+</html>
